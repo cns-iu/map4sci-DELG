@@ -80,21 +80,21 @@ var myGraph = null;
 var font_size = null;
 var node_to_links = null;
 
-function ideal_edge_length_preservation(links, ideal_lengths){
-  let total_difference = 0;
-  for (let i = 0; i < links.length; i++) {
-    let x1 = links[i].source.x;
-    let y1 = links[i].source.y;
-    let x2 = links[i].target.x;
-    let y2 = links[i].target.y;
-    let dist = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-    let diff = Math.abs(ideal_lengths[i] - dist);
-    total_difference += Math.pow(diff / ideal_lengths[i], 2);
-  }
-  let average_difference = Math.sqrt(total_difference / links.length);
-  //return 1-average_difference;
-  return average_difference;
-}
+// function ideal_edge_length_preservation(links, ideal_lengths){
+//   let total_difference = 0;
+//   for (let i = 0; i < links.length; i++) {
+//     let x1 = links[i].source.x;
+//     let y1 = links[i].source.y;
+//     let x2 = links[i].target.x;
+//     let y2 = links[i].target.y;
+//     let dist = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+//     let diff = Math.abs(ideal_lengths[i] - dist);
+//     total_difference += Math.pow(diff / ideal_lengths[i], 2);
+//   }
+//   let average_difference = Math.sqrt(total_difference / links.length);
+//   //return 1-average_difference;
+//   return average_difference;
+// }
 
 //const data = fs.readFileSync('crossings_initial.js',
 //            {encoding:'utf8', flag:'r'});
@@ -104,21 +104,21 @@ function ideal_edge_length_preservation(links, ideal_lengths){
 //eval(data)
 
 
-fs.readFile('topics_compute_mlst.js', 'utf8' , (err, data) => {
-  if (err) {
-    console.error(err)
-    return
-  }
-  //console.log(data)
-  eval(data)
-  //console.log(alphanum_to_org)
-  fs.readFile('DELG_code.js', 'utf8' , (err, data) => {
-    if (err) {
-      console.error(err)
-      return
-    }
-    //console.log(data)
-    eval(data)
-  })
-})
+// fs.readFile('topics_compute_mlst.js', 'utf8' , (err, data) => {
+//   if (err) {
+//     console.error(err)
+//     return
+//   }
+//   //console.log(data)
+//   eval(data)
+//   //console.log(alphanum_to_org)
+//   fs.readFile('DELG_code.js', 'utf8' , (err, data) => {
+//     if (err) {
+//       console.error(err)
+//       return
+//     }
+//     //console.log(data)
+//     eval(data)
+//   })
+// })
 
