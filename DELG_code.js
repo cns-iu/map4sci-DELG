@@ -1,15 +1,18 @@
-import { remove_existing_crossings } from "./crossings_initial.js";
+import { remove_existing_crossings } from "./Functions/remove_existing_crossings.js";
 import { id_to_label } from "./topics_compute_mlst.js";
 import { my_edges } from "./topics_compute_mlst.js";
 import { edge_distance } from "./topics_compute_mlst.js";
 import { label_to_id } from "./topics_compute_mlst.js";
 import { crd_x } from "./topics_compute_mlst.js";
 import { crd_y } from "./topics_compute_mlst.js";
+import { ideal_edge_length_preservation } from "./Functions/ideal_edge_length_preservation.js";
+import { linkCrossingsParam } from "./Functions/linkCrossingsParam.js";
+import { linksCrossWithCrds } from "./Functions/linksCrossWithCrds.js";
 import * as fs from "fs";
 import * as d3 from "d3";
 
 let intervalTime = 5;
-let steps_before_fix_position = 50000;
+const steps_before_fix_position = 50000;
 let edge_distance_org = null;
 let eps_movement = null;
 let safeMode = null;
@@ -18,8 +21,6 @@ let locked = null;
 let t0 = null;
 let myGraph = null;
 let node_to_links = null;
-
-let edgeLengthAddition = 0;
 
 class D3ForceGraph {
   constructor(width, height) {
@@ -37,7 +38,7 @@ class D3ForceGraph {
 
     t.graphData = { nodes: [], links: [] };
 
-    let simulation = t.initSimulation();
+    const simulation = t.initSimulation();
     t.simulation = simulation;
 
     // update();
@@ -47,7 +48,7 @@ class D3ForceGraph {
   initSimulation() {
     let t = this;
 
-    let result = d3
+    const result = d3
       .forceSimulation()
       .velocityDecay(0.55)
       .force(
@@ -68,18 +69,18 @@ class D3ForceGraph {
 
   determine_collision_force(d) {
     if (typeof myGraph == "undefined") return subdivision_length / 2;
-    let neighbors = myGraph.AdjList.get(d.id);
+    const neighbors = myGraph.AdjList.get(d.id);
     if (typeof neighbors == "undefined") return subdivision_length / 2;
-    let curr_x = graph.graphData.nodes[d.id].x;
-    let curr_y = graph.graphData.nodes[d.id].y;
-    let max_dis = 0;
-    let min_dis = 10000000;
+    const curr_x = graph.graphData.nodes[d.id].x;
+    const curr_y = graph.graphData.nodes[d.id].y;
+    const max_dis = 0;
+    const min_dis = 10000000;
     for (let i = 0; i < neighbors.length; i++) {
-      let n_x = graph.graphData.nodes[neighbors[i]].x;
-      let n_y = graph.graphData.nodes[neighbors[i]].y;
-      let d_x = n_x - curr_x;
-      let d_y = n_y - curr_y;
-      let curr_dis = Math.sqrt(d_x * d_x + d_y * d_y);
+      const n_x = graph.graphData.nodes[neighbors[i]].x;
+      const n_y = graph.graphData.nodes[neighbors[i]].y;
+      const d_x = n_x - curr_x;
+      const d_y = n_y - curr_y;
+      const curr_dis = Math.sqrt(d_x * d_x + d_y * d_y);
       if (max_dis < curr_dis) max_dis = curr_dis;
       if (min_dis > curr_dis) min_dis = curr_dis;
     }
@@ -110,19 +111,8 @@ class D3ForceGraph {
   }
 
   update(t, simulation) {
-    let nodes = t.graphData.nodes;
-    let links = t.graphData.links;
-
-    // nodes
-    let graphNodesData = null;
-    let graphNodesEnter = null;
-    let graphNodesExit = null;
-    let graphNodeCircles = null;
-    let graphNodeLabels = null;
-    // links
-    let graphLinksData = null;
-    let graphLinksEnter = null;
-    let graphLinksExit = null;
+    const nodes = t.graphData.nodes;
+    const links = t.graphData.links;
 
     simulation.nodes(nodes).on("end", () => t.handleEnd());
 
@@ -150,15 +140,15 @@ class D3ForceGraph {
             crd_x_t[i] = graph.graphData.nodes[i].x;
             crd_y_t[i] = graph.graphData.nodes[i].y;
           }
-          for (var i = 0; i <= my_edges.length; i++) {
-            let prev_x = crd_x[i];
-            let prev_y = crd_y[i];
+          for (let i = 0; i <= my_edges.length; i++) {
+            const prev_x = crd_x[i];
+            const prev_y = crd_y[i];
             crd_x[i] = crd_x_t[i];
             crd_y[i] = crd_y_t[i];
             {
               let introducesCrossing = false;
               for (let j = 0; j < node_to_links[i].length; j++) {
-                let link = node_to_links[i][j];
+                const link = node_to_links[i][j];
                 if (hasLinkCrossingsWithInputLink(link, crd_x, crd_y)) {
                   introducesCrossing = true;
                   break;
@@ -173,13 +163,13 @@ class D3ForceGraph {
           if (safeModeIter % 100 == 0) {
             let crd_x_log = {};
             let crd_y_log = {};
-            for (var i = 0; i <= my_edges.length; i++) {
+            for (let i = 0; i <= my_edges.length; i++) {
               crd_x_log[i] = crd_x[i];
               crd_y_log[i] = crd_y[i];
             }
             console.log(crd_x_log, crd_y_log);
           }
-          for (var i = 0; i <= my_edges.length; i++) {
+          for (let i = 0; i <= my_edges.length; i++) {
             graph.graphData.nodes[i].x = crd_x[i];
             graph.graphData.nodes[i].y = crd_y[i];
           }
@@ -209,18 +199,18 @@ class D3ForceGraph {
 
     let t = this;
 
-    let currentNodes = t.graphData.nodes;
-    let currentLinks = t.graphData.links;
-    let nIndex = currentNodes.indexOf(dToRemove);
+    const currentNodes = t.graphData.nodes;
+    const currentLinks = t.graphData.links;
+    const nIndex = currentNodes.indexOf(dToRemove);
     if (nIndex > -1) {
       currentNodes.splice(nIndex, 1);
     }
 
-    let toRemoveLinks = currentLinks.filter((l) => {
+    const toRemoveLinks = currentLinks.filter((l) => {
       return l.source.id === dToRemove.id || l.target.id === dToRemove.id;
     });
     toRemoveLinks.forEach((l) => {
-      let lIndex = currentLinks.indexOf(l);
+      const lIndex = currentLinks.indexOf(l);
       currentLinks.splice(lIndex, 1);
     });
 
@@ -234,10 +224,10 @@ class D3ForceGraph {
 
     let t = this;
 
-    let newId = Math.trunc(Math.random() * 1000);
-    let newNode = { id: newId, name: "server 22", x: d.x, y: d.y };
-    let newNodes = [newNode];
-    let newLinks = [{ source: d.id, target: newNode.id }];
+    const newId = Math.trunc(Math.random() * 1000);
+    const newNode = { id: newId, name: "server 22", x: d.x, y: d.y };
+    const newNodes = [newNode];
+    const newLinks = [{ source: d.id, target: newNode.id }];
 
     t.add(newNodes, newLinks);
   }
@@ -248,10 +238,9 @@ class D3ForceGraph {
 }
 
 // START RUNNING everyting
-let graph = new D3ForceGraph(500, 500);
+const graph = new D3ForceGraph(500, 500);
 graph.init();
-let subdivision_length = 50;
-let subdivision_factor = 1.5;
+const subdivision_length = 50;
 class Queue {
   // Array is used to implement a Queue
   constructor() {
@@ -287,8 +276,8 @@ class Queue {
 
   // printQueue function
   printQueue() {
-    var str = "";
-    for (var i = 0; i < this.items.length; i++) str += this.items[i] + " ";
+    let str = "";
+    for (let i = 0; i < this.items.length; i++) str += this.items[i] + " ";
     return str;
   }
 }
@@ -308,12 +297,12 @@ class MyGraph {
 
   // remove edge from the graph
   removeEdge(v, w) {
-    var arr = this.AdjList.get(v);
+    let arr = this.AdjList.get(v);
     if (typeof arr == "undefined") {
       graph.simulation.stop();
       return;
     }
-    for (var i = 0; i < arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
       if (arr[i] === w) {
         arr.splice(i, 1);
       }
@@ -323,7 +312,7 @@ class MyGraph {
       graph.simulation.stop();
       return;
     }
-    for (var i = 0; i < arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
       if (arr[i] === v) {
         arr.splice(i, 1);
       }
@@ -333,18 +322,18 @@ class MyGraph {
   // Prints the vertex and adjacency list
   printGraph() {
     // get all the vertices
-    var get_keys = this.AdjList.keys();
+    let get_keys = this.AdjList.keys();
 
     // iterate over the vertices
-    for (var i of get_keys) {
+    for (let i of get_keys) {
       // great the corresponding adjacency list
       // for the vertex
-      var get_values = this.AdjList.get(i);
-      var conc = "";
+      let get_values = this.AdjList.get(i);
+      let conc = "";
 
       // iterate over the adjacency list
       // concatenate the values into a string
-      for (var j of get_values) conc += j + " ";
+      for (let j of get_values) conc += j + " ";
 
       // print the vertex and its adjacency list
       console.log(i + " -> " + conc);
@@ -353,14 +342,14 @@ class MyGraph {
 
   // function to performs BFS
   bfs(startingNode) {
-    var bfsTraversal = [];
+    let bfsTraversal = [];
 
     // create a visited array
-    var visited = [];
-    for (var i = 0; i < this.noOfVertices; i++) visited[i] = false;
+    let visited = [];
+    for (let i = 0; i < this.noOfVertices; i++) visited[i] = false;
 
     // Create an object for queue
-    var q = new Queue();
+    let q = new Queue();
 
     // add the starting node to the queue
     visited[startingNode] = true;
@@ -411,7 +400,6 @@ class MyGraph {
       const getQueueElement = nodeDepth[0];
 
       // passing the current vertex to callback funtion
-      //console.log(getQueueElement);
       bfsTraversal.push(nodeDepth);
 
       // get the adjacent list for current vertex
@@ -438,7 +426,6 @@ let time_for_inserting_edge = [];
 function myInit() {
   t0 = new Date().getTime();
   time_when_last_edge_added = t0;
-  //let nodes = [ {"id": 0, "name": "machine lear"} ];
   let nodes = [{ id: 0, name: my_edges[0][0], x: crd_x[0], y: crd_y[0] }];
   let links = [];
   graph.add(nodes, links);
@@ -448,17 +435,14 @@ function myInit() {
   myGraph.addVertex(0);
 }
 
-
 let my_count = 0;
 intervalTime = 5;
-
-steps_before_fix_position = 50000;
 
 edge_distance_org = Object.assign({}, edge_distance);
 function startAddingEdges() {
   if (my_count >= my_edges.length) {
     stopAddingEdges();
-    var t1 = new Date().getTime();
+    let t1 = new Date().getTime();
     console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
     console.log(
       "Ideal edge length preservation:",
@@ -482,7 +466,7 @@ function startAddingEdges() {
   let existingNode = graph.graphData.nodes[label_to_id[my_edges[my_count][0]]];
   let newId = label_to_id[my_edges[my_count][1]];
   let newNode = { id: newId, name: my_edges[my_count][1] };
- 
+
   newNode.x = crd_x[newId];
   newNode.y = crd_y[newId];
   let newLink = { source: existingNode.id, target: newId };
@@ -501,7 +485,6 @@ function initForceDirected() {
   for (let i = 0; i <= my_edges.length; i++) {
     graph.graphData.nodes[i].fx = null;
     graph.graphData.nodes[i].fy = null;
-    
   }
   {
     safeMode = true;
@@ -540,14 +523,14 @@ function stopForceDirected() {
   clearInterval(startForceDirectedInterval);
   if (safeMode) {
     locked = true;
-    for (var i = 0; i <= my_edges.length; i++) {
+    for (let i = 0; i <= my_edges.length; i++) {
       graph.graphData.nodes[i].fx = crd_x[i];
       graph.graphData.nodes[i].fy = crd_y[i];
     }
   }
   if (safeMode == false) {
     if (eps_movement != -1) {
-      for (var i = 0; i <= my_edges.length; i++) {
+      for (let i = 0; i <= my_edges.length; i++) {
         let x_diff = graph.graphData.nodes[i].x - crd_x[i];
         let y_diff = graph.graphData.nodes[i].y - crd_y[i];
         let node_movement = Math.sqrt(x_diff * x_diff + y_diff * y_diff);
@@ -565,7 +548,7 @@ function stopForceDirected() {
     }
     remove_existing_crossings();
   }
- 
+
   const t1 = new Date().getTime();
   console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
   console.log(
@@ -576,7 +559,7 @@ function stopForceDirected() {
   console.log("Number of crossings:", n_crossings);
   if (safeMode == false) {
     if (n_crossings == 0) {
-      for (var i = 0; i <= my_edges.length; i++) {
+      for (let i = 0; i <= my_edges.length; i++) {
         crd_x[i] = graph.graphData.nodes[i].x;
         crd_y[i] = graph.graphData.nodes[i].y;
       }
@@ -592,180 +575,18 @@ function stopAddingEdges() {
 
 myInit();
 
-function direction(pi, pj, pk) {
-  var p1 = [pk[0] - pi[0], pk[1] - pi[1]];
-  var p2 = [pj[0] - pi[0], pj[1] - pi[1]];
-  return p1[0] * p2[1] - p2[0] * p1[1];
-}
-
-function onSegment(pi, pj, pk) {
-  return (
-    Math.min(pi[0], pj[0]) <= pk[0] &&
-    pk[0] <= Math.max(pi[0], pj[0]) &&
-    Math.min(pi[1], pj[1]) <= pk[1] &&
-    pk[1] <= Math.max(pi[1], pj[1])
-  );
-}
-
-function linesCross(line1, line2) {
-  var d1, d2, d3, d4;
-
-  d1 = direction(line2[0], line2[1], line1[0]);
-  d2 = direction(line2[0], line2[1], line1[1]);
-  d3 = direction(line1[0], line1[1], line2[0]);
-  d4 = direction(line1[0], line1[1], line2[1]);
-
-  if (
-    ((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) &&
-    ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0))
-  ) {
-    return true;
-  } else if (d1 === 0 && onSegment(line2[0], line2[1], line1[0])) {
-    return true;
-  } else if (d2 === 0 && onSegment(line2[0], line2[1], line1[1])) {
-    return true;
-  } else if (d3 === 0 && onSegment(line1[0], line1[1], line2[0])) {
-    return true;
-  } else if (d4 === 0 && onSegment(line1[0], line1[1], line2[1])) {
-    return true;
-  }
-
-  return false;
-}
-
-function linksCross(link1, link2) {
-  // Self loops are not intersections
-  if (
-    link1.index === link2.index ||
-    link1.source === link1.target ||
-    link2.source === link2.target
-  ) {
-    return false;
-  }
-
-  // Links cannot intersect if they share a node
-  if (
-    link1.source === link2.source ||
-    link1.source === link2.target ||
-    link1.target === link2.source ||
-    link1.target === link2.target
-  ) {
-    return false;
-  }
-
-  let line1 = [
-    [link1.source.x, link1.source.y],
-    [link1.target.x, link1.target.y],
-  ];
-
-  let line2 = [
-    [link2.source.x, link2.source.y],
-    [link2.target.x, link2.target.y],
-  ];
-
-  return linesCross(line1, line2);
-}
-
-function linksCrossWithCrds(link1, link2, crd_x, crd_y) {
-  // Self loops are not intersections
-  if (
-    link1.index === link2.index ||
-    link1.source === link1.target ||
-    link2.source === link2.target
-  ) {
-    return false;
-  }
-
-  // Links cannot intersect if they share a node
-  if (
-    link1.source === link2.source ||
-    link1.source === link2.target ||
-    link1.target === link2.source ||
-    link1.target === link2.target
-  ) {
-    return false;
-  }
-
-  let line1 = [
-    [crd_x[link1.source.id], crd_y[link1.source.id]],
-    [crd_x[link1.target.id], crd_y[link1.target.id]],
-  ];
-
-  let line2 = [
-    [crd_x[link2.source.id], crd_y[link2.source.id]],
-    [crd_x[link2.target.id], crd_y[link2.target.id]],
-  ];
-
-  return linesCross(line1, line2);
-}
-
 function hasLinkCrossingsWithInputLink(inputLink, crd_x, crd_y) {
-  let link1,link2
-
+  let link1, link2;
   // Sum the upper diagonal of the edge crossing matrix.
   const links = graph.graphData.links;
   let m = links.length;
   for (let i = 0; i < m; ++i) {
     (link1 = links[i]), (link2 = inputLink);
-
     // Check if link i and link j intersect
     if (linksCrossWithCrds(link1, link2, crd_x, crd_y)) {
       return true;
     }
   }
-
   //return res;
   return false;
-}
-
-function linkCrossingsParam(links) {
-  let i,j,
-    c = 0,
-    link1,
-    link2,
-    line1,
-    line2;
-  let res = [];
-
-  // Sum the upper diagonal of the edge crossing matrix.
-  let m = links.length;
-  for (i = 0; i < m; ++i) {
-    for (j = i + 1; j < m; ++j) {
-      (link1 = links[i]), (link2 = links[j]);
-
-      // Check if link i and link j intersect
-      if (linksCross(link1, link2)) {
-        line1 = [
-          [link1.source.x, link1.source.y],
-          [link1.target.x, link1.target.y],
-        ];
-        line2 = [
-          [link2.source.x, link2.source.y],
-          [link2.target.x, link2.target.y],
-        ];
-        ++c;
-        res.push([
-          [link1.source, link1.target, link1.index],
-          [link2.source, link2.target, link2.index],
-        ]);
-      }
-    }
-  }
-
-  return res;
-}
-
-function ideal_edge_length_preservation(links, ideal_lengths) {
-  let total_difference = 0;
-  for (let i = 0; i < links.length; i++) {
-    let x1 = links[i].source.x;
-    let y1 = links[i].source.y;
-    let x2 = links[i].target.x;
-    let y2 = links[i].target.y;
-    let dist = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
-    let diff = Math.abs(ideal_lengths[i] - dist);
-    total_difference += Math.pow(diff / ideal_lengths[i], 2);
-  }
-  let average_difference = Math.sqrt(total_difference / links.length);
-  return average_difference;
 }
