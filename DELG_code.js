@@ -7,7 +7,7 @@ import { crd_x } from "./topics_compute_mlst.js";
 import { crd_y } from "./topics_compute_mlst.js";
 import { ideal_edge_length_preservation } from "./Functions/ideal_edge_length_preservation.js";
 import { linkCrossingsParam } from "./Functions/linkCrossingsParam.js";
-import { linksCrossWithCrds } from "./Functions/linksCrossWithCrds.js";
+import {hasLinkCrossingsWithInputLink} from "./Functions/hasLinkCrossingsWithInputLink.js"
 import * as fs from "fs";
 import * as d3 from "d3";
 
@@ -238,7 +238,7 @@ class D3ForceGraph {
 }
 
 // START RUNNING everyting
-const graph = new D3ForceGraph(500, 500);
+export const graph = new D3ForceGraph(500, 500);
 graph.init();
 const subdivision_length = 50;
 class Queue {
@@ -518,6 +518,8 @@ locked = false;
 if (my_edges.length <= 2000) {
   eps_movement = -1;
 }
+
+//difficult to export because of a lot of global variables
 function stopForceDirected() {
   console.log("inside stopForceDirected");
   clearInterval(startForceDirectedInterval);
@@ -574,19 +576,3 @@ function stopAddingEdges() {
 }
 
 myInit();
-
-function hasLinkCrossingsWithInputLink(inputLink, crd_x, crd_y) {
-  let link1, link2;
-  // Sum the upper diagonal of the edge crossing matrix.
-  const links = graph.graphData.links;
-  let m = links.length;
-  for (let i = 0; i < m; ++i) {
-    (link1 = links[i]), (link2 = inputLink);
-    // Check if link i and link j intersect
-    if (linksCrossWithCrds(link1, link2, crd_x, crd_y)) {
-      return true;
-    }
-  }
-  //return res;
-  return false;
-}
