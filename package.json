@@ -4,7 +4,8 @@
   "description": "",
   "main": "sample.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "DELG":"node src/cli.js examples/input.json output.json"
   },
   "author": "",
   "license": "ISC",
