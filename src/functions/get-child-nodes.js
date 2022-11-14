@@ -1,10 +1,10 @@
-export function getChildNodes(firstEdge, secondEdge) {
+export function getChildNodes(firstEdge, secondEdge,myGraph) {
   let comp1Size = null;
   let comp1 = null;
   myGraph.removeEdge(firstEdge[0].id, firstEdge[1].id);
-  const part1 = myGraph.bfs(firstEdge[0].id);
-  const part2 = myGraph.bfs(firstEdge[1].id);
-  const part1ContainsSecondEdge = false;
+  let part1 = myGraph.bfs(firstEdge[0].id);
+  let part2 = myGraph.bfs(firstEdge[1].id);
+  let part1ContainsSecondEdge = false;
   for (let i = 0; i < part1.length; i++) {
     if (part1[i] == secondEdge[0].id || part1[i] == secondEdge[1].id) {
       part1ContainsSecondEdge = true;

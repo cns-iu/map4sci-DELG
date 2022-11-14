@@ -1,31 +1,40 @@
-import { removeExistingCrossings } from './functions/remove-existing-crossings.js';
-import { idealEdgeLengthPreservation } from './functions/ideal-edge-length-preservation.js';
-import { linkCrossingsParam } from './functions/link-crossings-param.js';
 import { hasLinkCrossingsWithInputLink } from './functions/has-link-crossings-with-input-link.js';
+import { myInit } from './functions/my-init.js';
+import { startForceDirected } from './functions/start-force-directed.js';
+import { stopForceDirected } from './functions/stop-force-directed.js';
+import { startAddingEdges } from './functions/start-adding-edges.js';
 import * as fs from 'fs';
 import * as d3 from 'd3';
 
-let intervalTime = 5;
-const stepsBeforeFixPosition = 50000;
-let epsMovement = null;
-let safeMode = null;
-let safeModeIter = null;
-let locked = null;
-let t0 = null;
-let myGraph = null;
+
+//being used by both class and function
 const nodeToLinks = {};
+let safeMode = null;
+let t0 = null;
 
 const INPUT_FILE = JSON.parse(
   fs.readFileSync(process.argv[2], { encoding: 'utf8', flag: 'r' })
 );
 const OUTPUT_FILE = process.argv[3];
 
-const idToLabel = INPUT_FILE.idToLabel;
-const myEdges = INPUT_FILE.myEdges;
+export const idToLabel = INPUT_FILE.idToLabel;
+export const myEdges = INPUT_FILE.myEdges;
 const edgeDistance = INPUT_FILE.edgeDistance;
-const labelToId = INPUT_FILE.labelToId;
-const crdX = INPUT_FILE.crdX;
-const crdY = INPUT_FILE.crdY;
+export const labelToId = INPUT_FILE.labelToId;
+export const crdX = INPUT_FILE.crdX;
+export const crdY = INPUT_FILE.crdY;
+
+export let addEdgeInterval = setInterval(() => {
+  const edgeDistanceOrg = Object.assign({}, edgeDistance);
+  let timeWhenLastEdgeAdded = 0
+  startAddingEdges(
+    graph,
+    graph.myGraph,
+    timeWhenLastEdgeAdded,
+    edgeDistanceOrg,
+    nodeToLinks
+  );
+}, 5);
 
 class D3ForceGraph {
   constructor(width, height) {
@@ -69,6 +78,7 @@ class D3ForceGraph {
 
     return result;
   }
+
   update(t, simulation) {
     const nodes = t.graphData.nodes;
     const links = t.graphData.links;
@@ -78,12 +88,24 @@ class D3ForceGraph {
     simulation.on('tick', handleTicked);
 
     simulation.force('link').links(links);
+    let safeModeIter = 1;
+    const edgeDistanceOrg = Object.assign({}, edgeDistance);
 
     function handleTicked() {
+      let locked = null;
+      let startForceDirectedInterval = setInterval(() => {
+        startForceDirected(graph);
+      }, 5);
       if (safeMode) {
         if (!locked) {
           if (safeModeIter == 500) {
-            stopForceDirected();
+            stopForceDirected(
+              graph,
+              startForceDirectedInterval,
+              safeMode,
+              t0,
+              edgeDistanceOrg
+            );
             graph.simulation.stop();
             const coordinates = JSON.stringify({ crd_x: crdX, crd_y: crdY });
             fs.writeFileSync(OUTPUT_FILE, coordinates);
@@ -108,7 +130,7 @@ class D3ForceGraph {
               let introducesCrossing = false;
               for (let j = 0; j < nodeToLinks[i].length; j++) {
                 const link = nodeToLinks[i][j];
-                if (hasLinkCrossingsWithInputLink(link, crdX, crdY)) {
+                if (hasLinkCrossingsWithInputLink(link, crdX, crdY, graph)) {
                   introducesCrossing = true;
                   break;
                 }
@@ -157,250 +179,11 @@ class D3ForceGraph {
   }
 }
 
-export const graph = new D3ForceGraph(500, 500);
-graph.init();
-const subdivision_length = 50;
-class Queue {
-  // Array is used to implement a Queue
-  constructor() {
-    this.items = [];
-  }
-
-  enqueue(element) {
-    // adding element to the queue
-    this.items.push(element);
-  }
-
-  dequeue() {
-    // removing element from the queue
-    // returns underflow when called
-    // on empty queue
-    if (this.isEmpty()) return 'Underflow';
-    return this.items.shift();
-  }
-
-  // front function
-  front() {
-    // returns the Front element of
-    // the queue without removing it.
-    if (this.isEmpty()) return 'No elements in Queue';
-    return this.items[0];
-  }
-
-  // isEmpty function
-  isEmpty() {
-    // return true if the queue is empty.
-    return this.items.length == 0;
-  }
-
-  // printQueue function
-  printQueue() {
-    let str = '';
-    for (let i = 0; i < this.items.length; i++) str += this.items[i] + ' ';
-    return str;
-  }
-}
-
-class MyGraph {
-  constructor(noOfVertices) {
-    this.noOfVertices = noOfVertices;
-    this.AdjList = new Map();
-  }
-  addVertex(v) {
-    this.AdjList.set(v, []);
-  }
-  addEdge(v, w) {
-    this.AdjList.get(v).push(w);
-    this.AdjList.get(w).push(v);
-  }
-
-  // remove edge from the graph
-  removeEdge(v, w) {
-    let arr = this.AdjList.get(v);
-    if (typeof arr == 'undefined') {
-      graph.simulation.stop();
-      return;
-    }
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i] === w) {
-        arr.splice(i, 1);
-      }
-    }
-    arr = this.AdjList.get(w);
-    if (typeof arr == 'undefined') {
-      graph.simulation.stop();
-      return;
-    }
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i] === v) {
-        arr.splice(i, 1);
-      }
-    }
-  }
-
-  // Prints the vertex and adjacency list
-  printGraph() {
-    // get all the vertices
-    const getKeys = this.AdjList.keys();
-
-    // iterate over the vertices
-    for (let i of getKeys) {
-      // great the corresponding adjacency list
-      // for the vertex
-      const getValues = this.AdjList.get(i);
-      let conc = '';
-
-      // iterate over the adjacency list
-      // concatenate the values into a string
-      for (let j of getValues) conc += j + ' ';
-
-      // print the vertex and its adjacency list
-      console.log(i + ' -> ' + conc);
-    }
-  }
-
-  // function to performs BFS
-  bfs(startingNode) {
-    const bfsTraversal = [];
-
-    // create a visited array
-    const visited = [];
-    for (let i = 0; i < this.noOfVertices; i++) visited[i] = false;
-
-    // Create an object for queue
-    const q = new Queue();
-
-    // add the starting node to the queue
-    visited[startingNode] = true;
-    q.enqueue(startingNode);
-
-    // loop until queue is element
-    while (!q.isEmpty()) {
-      // get the element from the queue
-      const getQueueElement = q.dequeue();
-
-      // passing the current vertex to callback funtion
-      bfsTraversal.push(getQueueElement);
-
-      // get the adjacent list for current vertex
-      const getList = this.AdjList.get(getQueueElement);
-
-      // loop through the list and add the element to the
-      // queue if it is not processed yet
-      for (let i in getList) {
-        const neigh = getList[i];
-
-        if (!visited[neigh]) {
-          visited[neigh] = true;
-          q.enqueue(neigh);
-        }
-      }
-    }
-    return bfsTraversal;
-  }
-  bfsDepth(startingNode) {
-    const bfsTraversal = [];
-
-    // create a visited array
-    const visited = [];
-    for (let i = 0; i < this.noOfVertices; i++) visited[i] = false;
-
-    // Create an object for queue
-    const q = new Queue();
-
-    // add the starting node to the queue
-    visited[startingNode] = true;
-    q.enqueue([startingNode, 0]);
-
-    // loop until queue is element
-    while (!q.isEmpty()) {
-      // get the element from the queue
-      const nodeDepth = q.dequeue();
-      const getQueueElement = nodeDepth[0];
-
-      // passing the current vertex to callback funtion
-      bfsTraversal.push(nodeDepth);
-
-      // get the adjacent list for current vertex
-      const getList = this.AdjList.get(getQueueElement);
-
-      // loop through the list and add the element to the
-      // queue if it is not processed yet
-      for (let i in getList) {
-        const neigh = getList[i];
-
-        if (!visited[neigh]) {
-          visited[neigh] = true;
-          q.enqueue([neigh, nodeDepth[0] + 1]);
-        }
-      }
-    }
-    return bfsTraversal;
-  }
-}
-
-let timeWhenLastEdgeAdded = 0;
-const timeForInsertingEdge = [];
-
-function myInit() {
-  t0 = new Date().getTime();
-  timeWhenLastEdgeAdded = t0;
-  const nodes = [{ id: 0, name: myEdges[0][0], x: crdX[0], y: crdY[0] }];
-  const links = [];
-  graph.add(nodes, links);
-  graph.graphData.nodes[0].fx = graph.graphData.nodes[0].x;
-  graph.graphData.nodes[0].fy = graph.graphData.nodes[0].y;
-  myGraph = new MyGraph(idToLabel.length);
-  myGraph.addVertex(0);
-}
-
-let myCount = 0;
-intervalTime = 5;
-
-const edgeDistanceOrg = Object.assign({}, edgeDistance);
-
-function startAddingEdges() {
-  if (myCount >= myEdges.length) {
-    stopAddingEdges();
-    const t1 = new Date().getTime();
-    console.log('Call to doSomething took ' + (t1 - t0) + ' milliseconds.');
-    console.log(
-      'Ideal edge length preservation:',
-      idealEdgeLengthPreservation(graph.graphData.links, edgeDistanceOrg)
-    );
-    console.log(
-      'Number of crossings:',
-      linkCrossingsParam(graph.graphData.links).length
-    );
-    initForceDirected();
-    return;
-  }
-  if (myCount >= stepsBeforeFixPosition) {
-    const prevNodeId = myCount - stepsBeforeFixPosition;
-    graph.graphData.nodes[prevNodeId].fx = graph.graphData.nodes[prevNodeId].x;
-    graph.graphData.nodes[prevNodeId].fy = graph.graphData.nodes[prevNodeId].y;
-  }
-
-  const existingNode = graph.graphData.nodes[labelToId[myEdges[myCount][0]]];
-  const newId = labelToId[myEdges[myCount][1]];
-  const newNode = { id: newId, name: myEdges[myCount][1] };
-
-  newNode.x = crdX[newId];
-  newNode.y = crdY[newId];
-  const newLink = { source: existingNode.id, target: newId };
-  graph.add([newNode], [newLink]);
-  graph.graphData.nodes[newId].fx = graph.graphData.nodes[newId].x;
-  graph.graphData.nodes[newId].fy = graph.graphData.nodes[newId].y;
-  myGraph.addVertex(newId);
-  myGraph.addEdge(existingNode.id, newId);
-  let curTime = new Date().getTime();
-  timeForInsertingEdge.push(curTime - timeWhenLastEdgeAdded);
-  timeWhenLastEdgeAdded = curTime;
-  myCount++;
-  graph.simulation.alpha(1).restart();
-}
-
-function initForceDirected() {
+export function initForceDirected(
+  graph,
+  nodeToLinks,
+  startForceDirectedInterval
+) {
   for (let i = 0; i <= myEdges.length; i++) {
     graph.graphData.nodes[i].fx = null;
     graph.graphData.nodes[i].fy = null;
@@ -419,78 +202,12 @@ function initForceDirected() {
       );
     }
   }
-  intervalTime = 500;
-  startForceDirectedInterval = setInterval(startForceDirected, intervalTime);
+  startForceDirectedInterval = setInterval(() => {
+    startForceDirected(graph);
+  }, 500);
 }
 
-function startForceDirected() {
-  graph.simulation.alpha(1).restart();
-}
+const graph = new D3ForceGraph(500, 500);
+graph.init();
 
-let startForceDirectedInterval = setInterval(startForceDirected, intervalTime);
-
-epsMovement = 2;
-safeMode = false;
-safeModeIter = 1;
-locked = false;
-if (myEdges.length <= 2000) {
-  epsMovement = -1;
-}
-
-function stopForceDirected() {
-  console.log('inside stopForceDirected');
-  clearInterval(startForceDirectedInterval);
-  if (safeMode) {
-    locked = true;
-    for (let i = 0; i <= myEdges.length; i++) {
-      graph.graphData.nodes[i].fx = crdX[i];
-      graph.graphData.nodes[i].fy = crdY[i];
-    }
-  }
-  if (safeMode == false) {
-    if (epsMovement != -1) {
-      for (let i = 0; i <= myEdges.length; i++) {
-        const xDiff = graph.graphData.nodes[i].x - crdX[i];
-        const yDiff = graph.graphData.nodes[i].y - crdY[i];
-        const nodeMovement = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
-        if (nodeMovement > epsMovement) {
-          const epsFact = epsMovement / nodeMovement;
-          graph.graphData.nodes[i].fx = crdX[i] + xDiff * epsFact;
-          graph.graphData.nodes[i].fy = crdY[i] + yDiff * epsFact;
-        }
-      }
-    } else {
-      for (let i = 0; i <= myEdges.length; i++) {
-        graph.graphData.nodes[i].fx = graph.graphData.nodes[i].x;
-        graph.graphData.nodes[i].fy = graph.graphData.nodes[i].y;
-      }
-    }
-    removeExistingCrossings();
-  }
-
-  const t1 = new Date().getTime();
-  console.log('Call to doSomething took ' + (t1 - t0) + ' milliseconds.');
-  console.log(
-    'Ideal edge length preservation:',
-    idealEdgeLengthPreservation(graph.graphData.links, edgeDistanceOrg)
-  );
-  const nCrossings = linkCrossingsParam(graph.graphData.links).length;
-  console.log('Number of crossings:', nCrossings);
-  if (safeMode == false) {
-    if (nCrossings == 0) {
-      for (let i = 0; i <= myEdges.length; i++) {
-        crdX[i] = graph.graphData.nodes[i].x;
-        crdY[i] = graph.graphData.nodes[i].y;
-      }
-    }
-  }
-  process.exit();
-}
-
-let addEdgeInterval = setInterval(startAddingEdges, intervalTime);
-
-function stopAddingEdges() {
-  clearInterval(addEdgeInterval);
-}
-
-myInit();
+myInit(graph, t0);

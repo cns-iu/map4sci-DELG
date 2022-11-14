@@ -1,6 +1,6 @@
 import { linksCross } from './links-cross.js';
 
-export function linkCrossingsWithInputLink(inputLink) {
+export function linkCrossingsWithInputLink(inputLink,graph) {
   let c = 0,
     link1,
     link2,

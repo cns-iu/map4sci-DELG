@@ -1,7 +1,6 @@
 import { linksCrossWithCrds } from './links-cross-with-crds.js';
-import { graph } from '../cli.js';
 
-export function hasLinkCrossingsWithInputLink(inputLink, crd_x, crd_y) {
+export function hasLinkCrossingsWithInputLink(inputLink, crd_x, crd_y,graph) {
   let link1, link2;
 
   // Sum the upper diagonal of the edge crossing matrix.
