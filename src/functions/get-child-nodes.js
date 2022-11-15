@@ -1,3 +1,4 @@
+
 export function getChildNodes(firstEdge, secondEdge,myGraph) {
   let comp1Size = null;
   let comp1 = null;

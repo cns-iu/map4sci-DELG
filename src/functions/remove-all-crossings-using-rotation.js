@@ -1,10 +1,12 @@
 import { linkCrossingsWithInputLink } from './link-crossings-with-input-link.js';
-import { myEdges } from '../cli.js';
+import { INPUT_FILE } from '../cli.js';
 export function removeAllCrossingsUsingRotation(
   cntr_vertex,
   other_vertex,
-  inputLink,graph
+  inputLink,
+  graph
 ) {
+  const myEdges = INPUT_FILE.myEdges;
   const oldX = other_vertex.x;
   const oldY = other_vertex.y;
   const rotation_dir = 1;
@@ -24,7 +26,7 @@ export function removeAllCrossingsUsingRotation(
     ty = ry + cntr_vertex.y;
     other_vertex.x = tx;
     other_vertex.y = ty;
-    const crossings = linkCrossingsWithInputLink(inputLink,graph);
+    const crossings = linkCrossingsWithInputLink(inputLink, graph);
     if (crossings.length == 0) return [tx, ty];
     theta = theta + rotation_dir * (Math.PI / number_of_angles);
   }

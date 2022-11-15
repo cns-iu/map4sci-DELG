@@ -1,15 +1,15 @@
-import { crdX } from "../cli.js";
-import { crdY } from "../cli.js";
-import { myEdges } from "../cli.js";
+import { INPUT_FILE } from "../cli.js";
 import { removeExistingCrossings } from "./remove-existing-crossings.js";
 import { idealEdgeLengthPreservation } from "./ideal-edge-length-preservation.js";
 import { linkCrossingsParam } from "./link-crossings-param.js";
 
-export function stopForceDirected(graph,startForceDirectedInterval,safeMode,t0,edgeDistanceOrg) {
+export function stopForceDirected(graph,startForceDirectedInterval,safeMode,edgeDistanceOrg) {
+  const myEdges = INPUT_FILE.myEdges;
+  const crdX = INPUT_FILE.crdX;
+  const crdY = INPUT_FILE.crdY;
     let locked = false;
     let epsMovement = 2;
   
-    console.log('inside stopForceDirected');
     clearInterval(startForceDirectedInterval);
     if (safeMode) {
       locked = true;
@@ -42,8 +42,9 @@ export function stopForceDirected(graph,startForceDirectedInterval,safeMode,t0,e
       removeExistingCrossings(graph);
     }
   
-    const t1 = new Date().getTime();
-    console.log('Call to doSomething took ' + (t1 - t0) + ' milliseconds.');
+    // const t1 = new Date().getTime();
+    // console.log('Call to doSomething took ' + (t1 - t0) + ' milliseconds.');
+
     console.log(
       'Ideal edge length preservation:',
       idealEdgeLengthPreservation(graph.graphData.links, edgeDistanceOrg)
