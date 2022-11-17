@@ -1,6 +1,6 @@
 import { idealEdgeLengthPreservation } from './ideal-edge-length-preservation.js';
 import { linkCrossingsParam } from './link-crossings-param.js';
-import { initForceDirected } from './initForceDirected.js';
+import { initForceDirected } from './init-force-directed.js';
 import {
   graph,
   INPUT_FILE,

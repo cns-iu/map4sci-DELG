@@ -2,7 +2,7 @@ import { myInit } from './functions/my-init.js';
 import { startForceDirected } from './functions/start-force-directed.js';
 import { startAddingEdges } from './functions/start-adding-edges.js';
 import * as fs from 'fs';
-import { D3ForceGraph } from './functions/D3ForceGraph.js';
+import { D3ForceGraph } from './functions/d3-force-graph.js';
 
 export const nodeToLinks = {};
 export let safeMode = null;

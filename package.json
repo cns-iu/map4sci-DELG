@@ -5,7 +5,7 @@
   "main": "sample.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "DELG":"node src/cli.js examples/input.json output.json"
+    "delg":"node src/cli.js"
   },
   "author": "",
   "license": "ISC",
