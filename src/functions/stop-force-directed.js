@@ -42,9 +42,6 @@ export function stopForceDirected(graph,startForceDirectedInterval,safeMode,edge
       removeExistingCrossings(graph);
     }
   
-    // const t1 = new Date().getTime();
-    // console.log('Call to doSomething took ' + (t1 - t0) + ' milliseconds.');
-
     console.log(
       'Ideal edge length preservation:',
       idealEdgeLengthPreservation(graph.graphData.links, edgeDistanceOrg)
@@ -59,5 +56,6 @@ export function stopForceDirected(graph,startForceDirectedInterval,safeMode,edge
         }
       }
     }
-    process.exit();
+
+    // process.exit();
   }

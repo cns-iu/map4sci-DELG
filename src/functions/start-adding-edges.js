@@ -28,6 +28,7 @@ export function startAddingEdges(timeWhenLastEdgeAdded, edgeDistanceOrg) {
       'Number of crossings:',
       linkCrossingsParam(graph.graphData.links).length
     );
+
     initForceDirected(graph, startForceDirectedInterval);
     return;
   }
