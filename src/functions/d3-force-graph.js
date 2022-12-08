@@ -61,17 +61,17 @@ export class D3ForceGraph {
   }
 
   stop() {
-    this.stopRunning = true;
+    graph.simulation.stop();
   }
 
-  // getJSON() {
-  //   // object in same format as CG
-  //   return this.getResults;
-  // }
-
-  // getDataTick() {
-  //   return this.dataTick;
-  // }
+  getJSON() {
+    const output = this.dataTick;
+    let newOutput = [];
+    for (let i = 0; i < Object.keys(output.crd_x).length; i++) {
+      newOutput.push({ id: i, x: output.crd_x[i], y: output.crd_y[i] });
+    }
+    return newOutput;
+  }
 
   update(t, simulation) {
     const nodes = t.graphData.nodes;
@@ -86,11 +86,6 @@ export class D3ForceGraph {
     const edgeDistanceOrg = Object.assign({}, t.edgeDistance);
 
     function handleTicked() {
-      if (this.stopRunning) {
-        simulation.off('tick');
-        return;
-      }
-
       let locked = null;
 
       if (safeMode) {
