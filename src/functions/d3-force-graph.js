@@ -1,13 +1,14 @@
 import { hasLinkCrossingsWithInputLink } from './has-link-crossings-with-input-link.js';
 import { stopForceDirected } from './stop-force-directed.js';
 import * as d3 from 'd3';
-import { graph, startForceDirectedInterval, nodeToLinks } from '../cli.js';
+import { graph, startForceDirectedInterval} from '../cli.js';
 
 let outputObject = {};
 export class D3ForceGraph {
   constructor(width, height, data) {
     let t = this;
     this.safeMode = null;
+    this.nodeToLinks = {}
     this.data = data;
     t.crdX = data.crdX;
     t.myEdges = data.myEdges;
@@ -119,8 +120,8 @@ export class D3ForceGraph {
             t.crdY[i] = crdYt[i];
             {
               let introducesCrossing = false;
-              for (let j = 0; j < nodeToLinks[i].length; j++) {
-                const link = nodeToLinks[i][j];
+              for (let j = 0; j < graph.nodeToLinks[i].length; j++) {
+                const link = graph.nodeToLinks[i][j];
                 if (
                   hasLinkCrossingsWithInputLink(link, t.crdX, t.crdY, graph)
                 ) {
