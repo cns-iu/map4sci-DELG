@@ -1,7 +1,7 @@
 import { idealEdgeLengthPreservation } from './ideal-edge-length-preservation.js';
 import { linkCrossingsParam } from './link-crossings-param.js';
 import { initForceDirected } from './init-force-directed.js';
-import { graph, startForceDirectedInterval } from '../cli.js';
+import { graph, startForceDirectedInterval,addEdgeInterval } from '../cli.js';
 
 let myCount = 0;
 
@@ -48,10 +48,7 @@ export function startAddingEdges(edgeDistanceOrg) {
   graph.simulation.alpha(1).restart();
 }
 
-let addEdgeInterval = setInterval(() => {
-  const edgeDistanceOrg = Object.assign({}, graph.data.edgeDistance);
-  startAddingEdges(edgeDistanceOrg);
-}, 0);
+
 
 function stopAddingEdges() {
   clearInterval(addEdgeInterval);

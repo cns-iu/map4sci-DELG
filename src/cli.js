@@ -3,6 +3,8 @@ import { D3ForceGraph } from './functions/d3-force-graph.js';
 import { myInit } from './functions/my-init.js';
 import { startForceDirected } from './functions/start-force-directed.js';
 import { wait } from './functions/wait.js';
+import { startAddingEdges } from './functions/start-adding-edges.js';
+
 
 
 if (process.argv.length < 4 || process.argv.length > 5) {
@@ -22,6 +24,10 @@ export let startForceDirectedInterval = setInterval(() => {
   startForceDirected(graph);
 }, 5);
 
+export let addEdgeInterval = setInterval(() => {
+  const edgeDistanceOrg = Object.assign({}, INPUT_FILE.edgeDistance);
+  startAddingEdges(edgeDistanceOrg);
+}, 0);
 export const graph = new D3ForceGraph(500, 500, INPUT_FILE);
 
 async function main() {
