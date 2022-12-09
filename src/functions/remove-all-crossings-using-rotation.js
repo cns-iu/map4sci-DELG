@@ -1,12 +1,12 @@
 import { linkCrossingsWithInputLink } from './link-crossings-with-input-link.js';
-import { INPUT_FILE } from '../cli.js';
+
 export function removeAllCrossingsUsingRotation(
   cntr_vertex,
   other_vertex,
   inputLink,
   graph
 ) {
-  const myEdges = INPUT_FILE.myEdges;
+  const myEdges = graph.data.myEdges;
   const oldX = other_vertex.x;
   const oldY = other_vertex.y;
   const rotation_dir = 1;

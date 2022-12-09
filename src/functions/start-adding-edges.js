@@ -1,20 +1,15 @@
 import { idealEdgeLengthPreservation } from './ideal-edge-length-preservation.js';
 import { linkCrossingsParam } from './link-crossings-param.js';
 import { initForceDirected } from './init-force-directed.js';
-import {
-  graph,
-  INPUT_FILE,
-  addEdgeInterval,
-  startForceDirectedInterval,
-} from '../cli.js';
+import { graph, addEdgeInterval, startForceDirectedInterval } from '../cli.js';
 
 let myCount = 0;
 
 export function startAddingEdges(timeWhenLastEdgeAdded, edgeDistanceOrg) {
-  const labelToId = INPUT_FILE.labelToId;
-  const myEdges = INPUT_FILE.myEdges;
-  const crdX = INPUT_FILE.crdX;
-  const crdY = INPUT_FILE.crdY;
+  const labelToId = graph.data.labelToId;
+  const myEdges = graph.data.myEdges;
+  const crdX = graph.data.crdX;
+  const crdY = graph.data.crdY;
 
   const timeForInsertingEdge = [];
   const stepsBeforeFixPosition = 50000;

@@ -7,15 +7,16 @@ import { startForceDirected } from './functions/start-force-directed.js';
 export const nodeToLinks = {};
 export let safeMode = null;
 
-// if (process.argv.length >= 4) {
-//   console.error(`${process.argv[0]}: <input file> <output file>`);
-//   process.exit(-1);
-// }
+if (process.argv.length < 4 || process.argv.length > 5) {
+  console.error(`${process.argv[0]}: <input file> <output file>`);
+  process.exit(-1);
+}
 
-export const INPUT_FILE = JSON.parse(
+const INPUT_FILE = JSON.parse(
   fs.readFileSync(process.argv[2], { encoding: 'utf8', flag: 'r' })
 );
-export const OUTPUT_FILE = process.argv[3];
+
+const OUTPUT_FILE = process.argv[3];
 const SIMULATION_TIME =
   process.argv > 4 ? parseInt(process.argv[4], 10) || 20000 : 20000;
 
@@ -32,8 +33,7 @@ export let addEdgeInterval = setInterval(() => {
 export function changeSafeMode(newValue) {
   safeMode = newValue;
 }
-export const graph = new D3ForceGraph(500, 500);
-//after init returnning grap.toJson, Must return object and then writefile sync
+export const graph = new D3ForceGraph(500, 500, INPUT_FILE);
 
 async function wait(timeout) {
   return new Promise((resolve) => {
@@ -42,10 +42,10 @@ async function wait(timeout) {
 }
 
 async function main() {
+  console.log(new Date());
   graph.init();
   myInit(graph);
   await wait(SIMULATION_TIME);
-  graph.stop();
   const coordinates = graph
     .getJSON()
     .map((c) => `${c.x}\t${c.y}\t${c.id}`)
@@ -53,6 +53,6 @@ async function main() {
 
   // tsv == tab-separated values format
   fs.writeFileSync(OUTPUT_FILE, coordinates);
-  process.exit();
+
 }
 main();

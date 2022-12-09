@@ -1,24 +1,22 @@
 import { hasLinkCrossingsWithInputLink } from './has-link-crossings-with-input-link.js';
 import { stopForceDirected } from './stop-force-directed.js';
-import * as fs from 'fs';
 import * as d3 from 'd3';
 import {
   safeMode,
   graph,
   startForceDirectedInterval,
-  OUTPUT_FILE,
   nodeToLinks,
-  INPUT_FILE,
 } from '../cli.js';
 
 let outputObject = {};
 export class D3ForceGraph {
-  constructor(width, height) {
+  constructor(width, height, data) {
     let t = this;
-    t.crdX = INPUT_FILE.crdX;
-    t.myEdges = INPUT_FILE.myEdges;
-    t.edgeDistance = INPUT_FILE.edgeDistance;
-    t.crdY = INPUT_FILE.crdY;
+    this.data = data;
+    t.crdX = data.crdX;
+    t.myEdges = data.myEdges;
+    t.edgeDistance = data.edgeDistance;
+    t.crdY = data.crdY;
     t.width = width;
     t.height = height;
     t.center = { x: t.width / 2, y: t.height / 2 };
@@ -60,6 +58,10 @@ export class D3ForceGraph {
     return result;
   }
 
+  start() {
+
+  }
+
   stop() {
     graph.simulation.stop();
   }
@@ -92,23 +94,16 @@ export class D3ForceGraph {
         if (!locked) {
           //the end point is based on the safemodeIter. As it reaches 500 the program end
           if (safeModeIter == 500) {
+            console.log(`Stopping after ${safeModeIter} iterations.`);
+            console.log(new Date());
             t.dataTick = outputObject;
             stopForceDirected(
               graph,
-              startForceDirectedInterval,
+              graph.intervalId || startForceDirectedInterval,
               safeMode,
               edgeDistanceOrg
             );
-            graph.simulation.stop();
-            //store the coordinates in graph.coordinates =coordinates
-            //then graph.toJson to return the coordinates
-            //transform the output to [{id,x,y},]
-
-            const coordinates = JSON.stringify({
-              crd_x: t.crdX,
-              crd_y: t.crdY,
-            });
-            fs.writeFileSync(OUTPUT_FILE, coordinates);
+            graph.stop();
           }
           locked = true;
           safeModeIter = safeModeIter + 1;

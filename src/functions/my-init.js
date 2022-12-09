@@ -1,11 +1,10 @@
 import { MyGraph } from './my-graph.js';
-import { INPUT_FILE } from '../cli.js';
 
 export function myInit(graph) {
-  const idToLabel = INPUT_FILE.idToLabel;
-  const myEdges = INPUT_FILE.myEdges;
-  const crdX = INPUT_FILE.crdX;
-  const crdY = INPUT_FILE.crdY;
+  const idToLabel = graph.data.idToLabel;
+  const myEdges = graph.data.myEdges;
+  const crdX = graph.data.crdX;
+  const crdY = graph.data.crdY;
   const nodes = [{ id: 0, name: myEdges[0][0], x: crdX[0], y: crdY[0] }];
   const links = [];
   graph.add(nodes, links);

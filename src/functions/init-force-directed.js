@@ -1,8 +1,8 @@
 import { startForceDirected } from './start-force-directed.js';
-import { changeSafeMode, INPUT_FILE, nodeToLinks } from '../cli.js';
+import { changeSafeMode, nodeToLinks } from '../cli.js';
 
 export function initForceDirected(graph, startForceDirectedInterval) {
-  const myEdges = INPUT_FILE.myEdges;
+  const myEdges = graph.data.myEdges;
   for (let i = 0; i <= myEdges.length; i++) {
     graph.graphData.nodes[i].fx = null;
     graph.graphData.nodes[i].fy = null;
@@ -21,7 +21,8 @@ export function initForceDirected(graph, startForceDirectedInterval) {
       );
     }
   }
-  startForceDirectedInterval = setInterval(() => {
+  clearInterval(startForceDirectedInterval);
+  startForceDirectedInterval = graph.intervalId = setInterval(() => {
     startForceDirected(graph);
   }, 500);
 }
