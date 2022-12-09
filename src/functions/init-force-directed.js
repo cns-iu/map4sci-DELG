@@ -1,5 +1,6 @@
 import { startForceDirected } from './start-force-directed.js';
-import { changeSafeMode, nodeToLinks } from '../cli.js';
+import { nodeToLinks } from '../cli.js';
+// import { changeSafeMode } from '../cli.js';
 
 export function initForceDirected(graph, startForceDirectedInterval) {
   const myEdges = graph.data.myEdges;
@@ -8,7 +9,9 @@ export function initForceDirected(graph, startForceDirectedInterval) {
     graph.graphData.nodes[i].fy = null;
   }
   {
-    changeSafeMode(true);
+   
+    graph.changeSafeMode(true)
+
     for (let i = 0; i <= myEdges.length; i++) {
       nodeToLinks[i] = [];
     }

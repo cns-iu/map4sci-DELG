@@ -5,7 +5,7 @@ import { graph, addEdgeInterval, startForceDirectedInterval } from '../cli.js';
 
 let myCount = 0;
 
-export function startAddingEdges(timeWhenLastEdgeAdded, edgeDistanceOrg) {
+export function startAddingEdges( edgeDistanceOrg) {
   const labelToId = graph.data.labelToId;
   const myEdges = graph.data.myEdges;
   const crdX = graph.data.crdX;
@@ -46,8 +46,8 @@ export function startAddingEdges(timeWhenLastEdgeAdded, edgeDistanceOrg) {
   graph.myGraph.addVertex(newId);
   graph.myGraph.addEdge(existingNode.id, newId);
   let curTime = new Date().getTime();
-  timeForInsertingEdge.push(curTime - timeWhenLastEdgeAdded);
-  timeWhenLastEdgeAdded = curTime;
+  // timeForInsertingEdge.push(curTime - timeWhenLastEdgeAdded);
+  // timeWhenLastEdgeAdded = curTime;
   myCount++;
   graph.simulation.alpha(1).restart();
 }

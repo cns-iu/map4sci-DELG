@@ -5,7 +5,6 @@ import { linkCrossingsParam } from './link-crossings-param.js';
 export function stopForceDirected(
   graph,
   startForceDirectedInterval,
-  safeMode,
   edgeDistanceOrg
 ) {
   const myEdges = graph.data.myEdges;
@@ -15,7 +14,7 @@ export function stopForceDirected(
   let epsMovement = 2;
 
   clearInterval(startForceDirectedInterval);
-  if (safeMode) {
+  if (graph.safeMode) {
     locked = true;
     for (let i = 0; i <= myEdges.length; i++) {
       graph.graphData.nodes[i].fx = crdX[i];
@@ -25,7 +24,7 @@ export function stopForceDirected(
   if (myEdges.length <= 2000) {
     epsMovement = -1;
   }
-  if (safeMode == false) {
+  if (graph.safeMode == false) {
     if (epsMovement != -1) {
       for (let i = 0; i <= myEdges.length; i++) {
         const xDiff = graph.graphData.nodes[i].x - crdX[i];
@@ -52,7 +51,7 @@ export function stopForceDirected(
   );
   const nCrossings = linkCrossingsParam(graph.graphData.links).length;
   console.log('Number of crossings:', nCrossings);
-  if (safeMode == false) {
+  if (graph.safeMode == false) {
     if (nCrossings == 0) {
       for (let i = 0; i <= myEdges.length; i++) {
         crdX[i] = graph.graphData.nodes[i].x;

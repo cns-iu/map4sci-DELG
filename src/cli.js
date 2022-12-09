@@ -5,7 +5,6 @@ import { startAddingEdges } from './functions/start-adding-edges.js';
 import { startForceDirected } from './functions/start-force-directed.js';
 
 export const nodeToLinks = {};
-export let safeMode = null;
 
 if (process.argv.length < 4 || process.argv.length > 5) {
   console.error(`${process.argv[0]}: <input file> <output file>`);
@@ -26,21 +25,19 @@ export let startForceDirectedInterval = setInterval(() => {
 
 export let addEdgeInterval = setInterval(() => {
   const edgeDistanceOrg = Object.assign({}, INPUT_FILE.edgeDistance);
-  let timeWhenLastEdgeAdded = 0;
-  startAddingEdges(timeWhenLastEdgeAdded, edgeDistanceOrg);
+  startAddingEdges( edgeDistanceOrg);
 }, 0);
 
-export function changeSafeMode(newValue) {
-  safeMode = newValue;
-}
 export const graph = new D3ForceGraph(500, 500, INPUT_FILE);
 
-async function wait(timeout) {
+ async function wait(timeout) {
   return new Promise((resolve) => {
     setTimeout(resolve, timeout);
   });
 }
 
+//TODO remove all exports using the graph in class D3graph to globalise the scope
+//TODO Get the dataset transform it to JSON using parser and then run it in the dataset. Try to rename and transform the dataset to one uniform way
 async function main() {
   console.log(new Date());
   graph.init();
@@ -53,6 +50,5 @@ async function main() {
 
   // tsv == tab-separated values format
   fs.writeFileSync(OUTPUT_FILE, coordinates);
-
 }
 main();

@@ -1,17 +1,13 @@
 import { hasLinkCrossingsWithInputLink } from './has-link-crossings-with-input-link.js';
 import { stopForceDirected } from './stop-force-directed.js';
 import * as d3 from 'd3';
-import {
-  safeMode,
-  graph,
-  startForceDirectedInterval,
-  nodeToLinks,
-} from '../cli.js';
+import { graph, startForceDirectedInterval, nodeToLinks } from '../cli.js';
 
 let outputObject = {};
 export class D3ForceGraph {
   constructor(width, height, data) {
     let t = this;
+    this.safeMode = null;
     this.data = data;
     t.crdX = data.crdX;
     t.myEdges = data.myEdges;
@@ -58,8 +54,10 @@ export class D3ForceGraph {
     return result;
   }
 
-  start() {
+  start() {}
 
+  changeSafeMode(newValue) {
+    this.safeMode = newValue;
   }
 
   stop() {
@@ -82,6 +80,8 @@ export class D3ForceGraph {
     simulation.nodes(nodes).on('end', () => t.handleEnd());
 
     simulation.on('tick', handleTicked);
+
+    
     let safeModeIter = 1;
 
     simulation.force('link').links(links);
@@ -89,8 +89,7 @@ export class D3ForceGraph {
 
     function handleTicked() {
       let locked = null;
-
-      if (safeMode) {
+      if (graph.safeMode) {
         if (!locked) {
           //the end point is based on the safemodeIter. As it reaches 500 the program end
           if (safeModeIter == 500) {
@@ -100,7 +99,6 @@ export class D3ForceGraph {
             stopForceDirected(
               graph,
               graph.intervalId || startForceDirectedInterval,
-              safeMode,
               edgeDistanceOrg
             );
             graph.stop();
