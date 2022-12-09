@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import { D3ForceGraph } from './functions/d3-force-graph.js';
 import { myInit } from './functions/my-init.js';
-import { startAddingEdges } from './functions/start-adding-edges.js';
 import { startForceDirected } from './functions/start-force-directed.js';
 import { wait } from './functions/wait.js';
 
@@ -23,15 +22,8 @@ export let startForceDirectedInterval = setInterval(() => {
   startForceDirected(graph);
 }, 5);
 
-export let addEdgeInterval = setInterval(() => {
-  const edgeDistanceOrg = Object.assign({}, INPUT_FILE.edgeDistance);
-  startAddingEdges( edgeDistanceOrg);
-}, 0);
-
 export const graph = new D3ForceGraph(500, 500, INPUT_FILE);
 
-//TODO remove all exports using the graph in class D3graph to globalise the scope
-//TODO Get the dataset transform it to JSON using parser and then run it in the dataset. Try to rename and transform the dataset to one uniform way
 async function main() {
   console.log(new Date());
   graph.init();

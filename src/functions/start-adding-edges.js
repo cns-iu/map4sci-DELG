@@ -1,17 +1,16 @@
 import { idealEdgeLengthPreservation } from './ideal-edge-length-preservation.js';
 import { linkCrossingsParam } from './link-crossings-param.js';
 import { initForceDirected } from './init-force-directed.js';
-import { graph, addEdgeInterval, startForceDirectedInterval } from '../cli.js';
+import { graph, startForceDirectedInterval } from '../cli.js';
 
 let myCount = 0;
 
-export function startAddingEdges( edgeDistanceOrg) {
+export function startAddingEdges(edgeDistanceOrg) {
   const labelToId = graph.data.labelToId;
   const myEdges = graph.data.myEdges;
   const crdX = graph.data.crdX;
   const crdY = graph.data.crdY;
 
-  const timeForInsertingEdge = [];
   const stepsBeforeFixPosition = 50000;
   if (myCount >= myEdges.length) {
     stopAddingEdges();
@@ -45,12 +44,14 @@ export function startAddingEdges( edgeDistanceOrg) {
   graph.graphData.nodes[newId].fy = graph.graphData.nodes[newId].y;
   graph.myGraph.addVertex(newId);
   graph.myGraph.addEdge(existingNode.id, newId);
-  let curTime = new Date().getTime();
-  // timeForInsertingEdge.push(curTime - timeWhenLastEdgeAdded);
-  // timeWhenLastEdgeAdded = curTime;
   myCount++;
   graph.simulation.alpha(1).restart();
 }
+
+let addEdgeInterval = setInterval(() => {
+  const edgeDistanceOrg = Object.assign({}, graph.data.edgeDistance);
+  startAddingEdges(edgeDistanceOrg);
+}, 0);
 
 function stopAddingEdges() {
   clearInterval(addEdgeInterval);
