@@ -1,7 +1,8 @@
 import { hasLinkCrossingsWithInputLink } from './has-link-crossings-with-input-link.js';
 import { stopForceDirected } from './stop-force-directed.js';
 import * as d3 from 'd3';
-import { graph, startForceDirectedInterval} from '../cli.js';
+import { graph} from '../cli.js';
+import {startForceDirectedInterval} from './start-force-directed-interval.js'
 
 let outputObject = {};
 export class D3ForceGraph {
