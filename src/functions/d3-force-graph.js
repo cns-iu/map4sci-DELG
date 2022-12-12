@@ -1,37 +1,37 @@
 import { hasLinkCrossingsWithInputLink } from './has-link-crossings-with-input-link.js';
 import { stopForceDirected } from './stop-force-directed.js';
 import * as d3 from 'd3';
-import { graph} from '../cli.js';
-import {startForceDirectedInterval} from './start-force-directed-interval.js'
+import { graph } from '../cli.js';
+import { startAddingEdges } from './start-adding-edges.js';
+import { initForceDirected } from './init-force-directed.js';
 
 let outputObject = {};
 export class D3ForceGraph {
   constructor(width, height, data) {
     let t = this;
     this.safeMode = null;
-    this.nodeToLinks = {}
+    this.nodeToLinks = {};
     this.data = data;
-    t.crdX = data.crdX;
-    t.myEdges = data.myEdges;
-    t.edgeDistance = data.edgeDistance;
-    t.crdY = data.crdY;
-    t.width = width;
-    t.height = height;
-    t.center = { x: t.width / 2, y: t.height / 2 };
-    t.dataTick = null;
+    this.crdX = data.crdX;
+    this.myEdges = data.myEdges;
+    this.edgeDistance = data.edgeDistance;
+    this.crdY = data.crdY;
+    this.width = width;
+    this.height = height;
+    this.center = { x: this.width / 2, y: this.height / 2 };
+    this.dataTick = null;
     this.stopRunning = false;
+    this.edgeDistanceOrg = Object.assign({}, data.edgeDistance);
 
-    t.updateRefCount = 0;
+    this.updateRefCount = 0;
   }
 
   async init() {
-    const t = this;
+    this.graphData = { nodes: [], links: [] };
 
-    t.graphData = { nodes: [], links: [] };
-
-    const simulation = t.initSimulation();
-    t.simulation = simulation;
-    t.update(t, simulation);
+    const simulation = this.initSimulation();
+    this.simulation = simulation;
+    this.update(this, simulation);
   }
 
   initSimulation() {
@@ -56,14 +56,30 @@ export class D3ForceGraph {
     return result;
   }
 
-  start() {}
+  start() {
+    startAddingEdges(this);
+  }
+
+  startForceDirected() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+    this.intervalId = setInterval(() => {
+      this.restartSimulation();
+    }, 5);
+    initForceDirected(graph, this.intervalId);
+  }
+
+  restartSimulation() {
+    this.simulation.alpha(1).restart();
+  }
 
   changeSafeMode(newValue) {
     this.safeMode = newValue;
   }
 
   stop() {
-    graph.simulation.stop();
+    this.simulation.stop();
   }
 
   getJSON() {
@@ -83,7 +99,6 @@ export class D3ForceGraph {
 
     simulation.on('tick', handleTicked);
 
-    
     let safeModeIter = 1;
 
     simulation.force('link').links(links);

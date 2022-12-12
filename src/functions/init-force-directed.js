@@ -1,5 +1,3 @@
-import { startForceDirected } from './start-force-directed.js';
-
 export function initForceDirected(graph, startForceDirectedInterval) {
   const myEdges = graph.data.myEdges;
   for (let i = 0; i <= myEdges.length; i++) {
@@ -23,6 +21,6 @@ export function initForceDirected(graph, startForceDirectedInterval) {
   }
   clearInterval(startForceDirectedInterval);
   startForceDirectedInterval = graph.intervalId = setInterval(() => {
-    startForceDirected(graph);
+    graph.restartSimulation();
   }, 500);
 }
