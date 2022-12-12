@@ -1,14 +1,13 @@
 import { hasLinkCrossingsWithInputLink } from './has-link-crossings-with-input-link.js';
 import { stopForceDirected } from './stop-force-directed.js';
 import * as d3 from 'd3';
-import { graph } from '../cli.js';
+// import { graph } from '../cli.js';
 import { startAddingEdges } from './start-adding-edges.js';
 import { initForceDirected } from './init-force-directed.js';
 
 let outputObject = {};
 export class D3ForceGraph {
   constructor(width, height, data) {
-    let t = this;
     this.safeMode = null;
     this.nodeToLinks = {};
     this.data = data;
@@ -22,7 +21,7 @@ export class D3ForceGraph {
     this.dataTick = null;
     this.stopRunning = false;
     this.edgeDistanceOrg = Object.assign({}, data.edgeDistance);
-
+    this.intervalId = null;
     this.updateRefCount = 0;
   }
 
@@ -67,7 +66,7 @@ export class D3ForceGraph {
     this.intervalId = setInterval(() => {
       this.restartSimulation();
     }, 5);
-    initForceDirected(graph, this.intervalId);
+    initForceDirected(this, this.intervalId);
   }
 
   restartSimulation() {
@@ -92,8 +91,8 @@ export class D3ForceGraph {
   }
 
   update(t, simulation) {
-    const nodes = t.graphData.nodes;
-    const links = t.graphData.links;
+    const nodes = this.graphData.nodes;
+    const links = this.graphData.links;
 
     simulation.nodes(nodes).on('end', () => t.handleEnd());
 
@@ -106,7 +105,7 @@ export class D3ForceGraph {
 
     function handleTicked() {
       let locked = null;
-      if (graph.safeMode) {
+      if (t.safeMode) {
         if (!locked) {
           //the end point is based on the safemodeIter. As it reaches 500 the program end
           if (safeModeIter == 500) {
@@ -114,11 +113,11 @@ export class D3ForceGraph {
             console.log(new Date());
             t.dataTick = outputObject;
             stopForceDirected(
-              graph,
-              graph.intervalId || startForceDirectedInterval,
+              t,
+              t.intervalId || startForceDirectedInterval,
               edgeDistanceOrg
             );
-            graph.stop();
+            t.stop();
           }
           locked = true;
           safeModeIter = safeModeIter + 1;
@@ -126,8 +125,8 @@ export class D3ForceGraph {
           const crdXt = {};
           const crdYt = {};
           for (let i = 0; i <= t.myEdges.length; i++) {
-            crdXt[i] = graph.graphData.nodes[i].x;
-            crdYt[i] = graph.graphData.nodes[i].y;
+            crdXt[i] = t.graphData.nodes[i].x;
+            crdYt[i] = t.graphData.nodes[i].y;
           }
           for (let i = 0; i <= t.myEdges.length; i++) {
             const prevX = t.crdX[i];
@@ -136,10 +135,10 @@ export class D3ForceGraph {
             t.crdY[i] = crdYt[i];
             {
               let introducesCrossing = false;
-              for (let j = 0; j < graph.nodeToLinks[i].length; j++) {
-                const link = graph.nodeToLinks[i][j];
+              for (let j = 0; j < t.nodeToLinks[i].length; j++) {
+                const link = t.nodeToLinks[i][j];
                 if (
-                  hasLinkCrossingsWithInputLink(link, t.crdX, t.crdY, graph)
+                  hasLinkCrossingsWithInputLink(link, t.crdX, t.crdY, t)
                 ) {
                   introducesCrossing = true;
                   break;
@@ -162,8 +161,8 @@ export class D3ForceGraph {
             outputObject['crd_y'] = crdYlog;
           }
           for (let i = 0; i <= t.myEdges.length; i++) {
-            graph.graphData.nodes[i].x = t.crdX[i];
-            graph.graphData.nodes[i].y = t.crdY[i];
+            t.graphData.nodes[i].x = t.crdX[i];
+            t.graphData.nodes[i].y = t.crdY[i];
           }
           locked = false;
         }

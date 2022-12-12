@@ -14,12 +14,11 @@ const INPUT_FILE = JSON.parse(
 
 const OUTPUT_FILE = process.argv[3];
 const SIMULATION_TIME =
-  process.argv > 4 ? parseInt(process.argv[4], 10) || 20000 : 20000;
-
-export const graph = new D3ForceGraph(500, 500, INPUT_FILE);
+  process.argv.length > 4 ? parseInt(process.argv[4], 10) : 20000;
 
 async function main(inputFile, outputFile, simTime) {
   console.log(new Date());
+  const graph = new D3ForceGraph(500, 500, inputFile);
   graph.init();
   myInit(graph);
   graph.start();
@@ -31,4 +30,5 @@ async function main(inputFile, outputFile, simTime) {
 
   fs.writeFileSync(outputFile, coordinates);
 }
+
 main(INPUT_FILE, OUTPUT_FILE, SIMULATION_TIME);
