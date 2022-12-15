@@ -8,21 +8,18 @@ if (process.argv.length < 4 || process.argv.length > 5) {
   process.exit(-1);
 }
 
-const INPUT_FILE = JSON.parse(
-  fs.readFileSync(process.argv[2], { encoding: 'utf8', flag: 'r' })
-);
-
-const OUTPUT_FILE = process.argv[3];
-const SIMULATION_TIME =
-  process.argv.length > 4 ? parseInt(process.argv[4], 10) : 20000;
-
 async function main(inputFile, outputFile, simTime) {
+  const INPUT_FILE = JSON.parse(
+    fs.readFileSync(inputFile, { encoding: 'utf8', flag: 'r' })
+  );
+  const SIMULATION_TIME =
+  process.argv.length > 4 ? parseInt(simTime, 10) : 20000;
   console.log(new Date());
-  const graph = new D3ForceGraph(500, 500, inputFile);
+  const graph = new D3ForceGraph(500, 500, INPUT_FILE);
   graph.init();
   myInit(graph);
   graph.start();
-  await wait(simTime);
+  await wait(SIMULATION_TIME);
   const coordinates = graph
     .getJSON()
     .map((c) => `${c.x}\t${c.y}\t${c.id}`)
@@ -31,4 +28,4 @@ async function main(inputFile, outputFile, simTime) {
   fs.writeFileSync(outputFile, coordinates);
 }
 
-main(INPUT_FILE, OUTPUT_FILE, SIMULATION_TIME);
+main(process.argv[2], process.argv[3], process.argv[4]);
