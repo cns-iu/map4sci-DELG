@@ -12,8 +12,7 @@ async function main(inputFile, outputFile, simTime) {
   const INPUT_FILE = JSON.parse(
     fs.readFileSync(inputFile, { encoding: 'utf8', flag: 'r' })
   );
-  const SIMULATION_TIME =
-  process.argv.length > 4 ? parseInt(simTime, 10) : 20000;
+  const SIMULATION_TIME = parseInt(simTime, 10);
   console.log(new Date());
   const graph = new D3ForceGraph(500, 500, INPUT_FILE);
   graph.init();
@@ -28,4 +27,8 @@ async function main(inputFile, outputFile, simTime) {
   fs.writeFileSync(outputFile, coordinates);
 }
 
-main(process.argv[2], process.argv[3], process.argv[4]);
+main(
+  process.argv[2],
+  process.argv[3],
+  process.argv.length > 4 ? process.argv[4] : '20000'
+);

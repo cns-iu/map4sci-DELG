@@ -59,6 +59,4 @@ export function stopForceDirected(
       }
     }
   }
-
-  // process.exit();
 }
