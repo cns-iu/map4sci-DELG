@@ -12,6 +12,7 @@
   "dependencies": {
     "d3": "^7.3.0",
     "dotparser": "^1.1.1",
+    "dotparser-normalized": "^0.1.0",
     "node-fetch": "^3.2.0"
   },
   "type": "module"

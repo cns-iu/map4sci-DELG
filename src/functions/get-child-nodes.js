@@ -1,3 +1,10 @@
+/**
+ * 
+ * @param {edge 1} firstEdge 
+ * @param {edge 2} secondEdge 
+ * @param {graph} myGraph 
+ * @returns child nodes
+ */
 
 export function getChildNodes(firstEdge, secondEdge,myGraph) {
   let comp1Size = null;

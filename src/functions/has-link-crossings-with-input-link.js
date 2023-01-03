@@ -1,5 +1,13 @@
 import { linksCrossWithCrds } from './links-cross-with-crds.js';
 
+/**
+ * 
+ * @param {Input link} inputLink 
+ * @param {x coordinate} crd_x 
+ * @param {y coordinate} crd_y 
+ * @param {graph} graph 
+ * @returns 
+ */
 export function hasLinkCrossingsWithInputLink(inputLink, crd_x, crd_y,graph) {
   let link1, link2;
 

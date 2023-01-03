@@ -42,6 +42,7 @@ export function startAddingEdges(graph) {
     }
 
     const existingNode = graph.graphData.nodes[labelToId[myEdges[myCount][0]]];
+    console.log(graph.graphData.nodes[labelToId[myEdges[myCount][0]]])
     const newId = labelToId[myEdges[myCount][1]];
     const newNode = { id: newId, name: myEdges[myCount][1] };
 

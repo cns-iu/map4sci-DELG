@@ -1,3 +1,5 @@
+
+
 export function direction(pi, pj, pk) {
     const p1 = [pk[0] - pi[0], pk[1] - pi[1]];
     const p2 = [pj[0] - pi[0], pj[1] - pi[1]];

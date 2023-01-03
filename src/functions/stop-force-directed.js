@@ -2,6 +2,13 @@ import { removeExistingCrossings } from './remove-existing-crossings.js';
 import { idealEdgeLengthPreservation } from './ideal-edge-length-preservation.js';
 import { linkCrossingsParam } from './link-crossings-param.js';
 
+/**
+ * 
+ * @param {graph} graph 
+ * @param {interval} startForceDirectedInterval 
+ * @param {edge distance} edgeDistanceOrg 
+ */
+
 export function stopForceDirected(
   graph,
   startForceDirectedInterval,

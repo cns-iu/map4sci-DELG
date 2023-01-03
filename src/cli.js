@@ -2,16 +2,23 @@ import * as fs from 'fs';
 import { D3ForceGraph } from './functions/d3-force-graph.js';
 import { myInit } from './functions/my-init.js';
 import { wait } from './functions/wait.js';
+import parse from 'dotparser';
+import { processJson } from './functions/processJson.js';
 
-if (process.argv.length < 4 || process.argv.length > 5) {
-  console.error(`${process.argv[0]}: <input file> <output file>`);
-  process.exit(-1);
-}
 
-async function main(inputFile, outputFile, simTime) {
+// if (process.argv.length < 4 || process.argv.length > 5) {
+//   console.error(`${process.argv[0]}: <input file> <output file>`);
+//   process.exit(-1);
+// }
+
+async function main(inputFile, outputFile, simTime, network) {
+  const data = parse(fs.readFileSync(network, { encoding: 'utf8', flag: 'r' }));
+  const convertedData = processJson(data)
+
   const INPUT_FILE = JSON.parse(
     fs.readFileSync(inputFile, { encoding: 'utf8', flag: 'r' })
   );
+
   const SIMULATION_TIME = parseInt(simTime, 10);
   console.log(new Date());
   const graph = new D3ForceGraph(500, 500, INPUT_FILE);
@@ -30,5 +37,6 @@ async function main(inputFile, outputFile, simTime) {
 main(
   process.argv[2],
   process.argv[3],
-  process.argv.length > 4 ? process.argv[4] : '20000'
+  process.argv.length > 4 ? process.argv[4] : '20000',
+  process.argv[5]
 );
