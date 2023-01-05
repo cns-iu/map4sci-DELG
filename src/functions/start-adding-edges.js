@@ -2,6 +2,11 @@ import { idealEdgeLengthPreservation } from './ideal-edge-length-preservation.js
 import { linkCrossingsParam } from './link-crossings-param.js';
 import { initForceDirected } from './init-force-directed.js';
 
+/**
+ * Starts adding Edges to the graph
+ * @param {Graph} graph 
+ * @returns Edge Interval
+ */
 export function startAddingEdges(graph) {
   let myCount = 0;
   let lastProgress = -1;

@@ -1,5 +1,6 @@
 import { Queue } from './queue.js';
 
+//Class that contains breadth first Search
 
 export class MyGraph {
   constructor(noOfVertices,graph) {

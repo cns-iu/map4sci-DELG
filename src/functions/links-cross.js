@@ -1,5 +1,11 @@
 import { linesCross } from './lines-cross.js';
 
+/**
+ * 
+ * @param {Link1} link1 
+ * @param {Link2} link2 
+ * @returns True if the links cross and False otherwise
+ */
 export function linksCross(link1, link2) {
   // Self loops are not intersections
   if (

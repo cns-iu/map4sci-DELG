@@ -1,7 +1,11 @@
 import * as fs from 'fs';
 
-export function processJson(data) {
-  // console.log(data[0].children[3]);
+/**
+ * 
+ * @param {convereted dot format data into JSON} data 
+ * @returns Processed data that is suitable for the network to process
+ */
+export function processDot(data) {
   const idToLabel = {};
   const labelToId = {};
   let myEdges = [];
@@ -35,11 +39,12 @@ export function processJson(data) {
 
   const startNodeId = nodes[0].id;
 
+  //implementing bfs queue
   const seen = new Set();
   let currentId = 0;
   const bfsQueue = [startNodeId];
   while (bfsQueue.length > 0) {
-    //changed to shift
+    //removing the first child of previous parent and making it the new parent
     const parent = bfsQueue.shift();
     if (labelToId[parent] === undefined) {
       const id = currentId++;
@@ -68,6 +73,8 @@ export function processJson(data) {
     crdX[element] = Math.random() * (10000 + 10000) - 10000;
     crdY[element] = Math.random() * (10000 + 10000) - 10000;
   });
+
+  //storing all the data processed into an Object
   collectiveData['idToLabel'] = idToLabel;
   collectiveData['myEdges'] = myEdges;
   collectiveData['edgeDistance'] = edgeDistance;
@@ -76,6 +83,8 @@ export function processJson(data) {
   collectiveData['labelToId'] = labelToId;
 
   let experimentData = `./examples/experimentData.json`;
+
+  //writing the processed data into a file
   fs.writeFileSync(
     `${experimentData}`,
     JSON.stringify(collectiveData, null, 2),

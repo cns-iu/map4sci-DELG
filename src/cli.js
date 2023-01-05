@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import { D3ForceGraph } from './functions/d3-force-graph.js';
 import { myInit } from './functions/my-init.js';
 import parse from 'dotparser';
-import { processJson } from './functions/processJson.js';
+import { processDot } from './functions/processDot.js';
 
 if (process.argv.length !== 4) {
   console.error(`${process.argv[0]}: <input file> <output file>`);
@@ -13,7 +13,7 @@ async function main(inputFile, outputFile) {
   const data = parse(
     fs.readFileSync(inputFile, { encoding: 'utf8', flag: 'r' })
   );
-  const convertedData = processJson(data);
+  const convertedData = processDot(data);
 
   console.log('Starting DELG algorithm...', new Date());
   const graph = new D3ForceGraph(500, 500, convertedData);

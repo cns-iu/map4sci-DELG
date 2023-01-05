@@ -1,5 +1,13 @@
 import { linkCrossingsWithInputLink } from './link-crossings-with-input-link.js';
 
+/**
+ * 
+ * @param {Centre Vertex} cntr_vertex 
+ * @param {Second Vertex} other_vertex 
+ * @param {Input Link} inputLink 
+ * @param {Graph} graph 
+ * @returns [x coordinate, y coordinate] after removing crossings
+ */
 export function removeAllCrossingsUsingRotation(
   cntr_vertex,
   other_vertex,

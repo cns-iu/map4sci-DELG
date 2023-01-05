@@ -1,5 +1,12 @@
 import { linksCross } from './links-cross.js';
 
+/**
+ * 
+ * @param {Input Link} inputLink 
+ * @param {graph} graph 
+ * @returns result with intersecting input link
+ */
+
 export function linkCrossingsWithInputLink(inputLink,graph) {
   let c = 0,
     link1,

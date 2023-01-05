@@ -1,5 +1,14 @@
 import { linesCross } from './lines-cross.js';
 
+/**
+ * 
+ * @param {Link1} link1 
+ * @param {Link2} link2 
+ * @param {x coordinate} crd_x 
+ * @param {y coordinate} crd_y 
+ * @returns true if these lines and coordinates intersect and False otherwise
+ */
+
 export function linksCrossWithCrds(link1, link2, crd_x, crd_y) {
   // Self loops are not intersections
   if (

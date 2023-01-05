@@ -3,6 +3,10 @@ import { getChildNodes } from './get-child-nodes.js';
 import { removeAllCrossingsUsingRotation } from './remove-all-crossings-using-rotation.js';
 import { updateDrawing } from './update-drawing.js';
 
+/**
+ * removes crossings if it exists
+ * @param {Graph} graph 
+ */
 export function removeExistingCrossings(graph) {
   const res = linkCrossingsParam(graph.graphData.links);
   let oldLength = 0;

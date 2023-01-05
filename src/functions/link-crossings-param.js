@@ -1,5 +1,11 @@
 import { linksCross } from './links-cross.js';
 
+
+/**
+ * 
+ * @param {links} links 
+ * @returns final array
+ */
 export function linkCrossingsParam(links) {
   let i,
     j,

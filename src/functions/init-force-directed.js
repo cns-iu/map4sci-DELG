@@ -1,3 +1,9 @@
+/**
+ * 
+ * @param {The graph } graph 
+ * @param {Interval} startForceDirectedInterval 
+ */
+
 export function initForceDirected(graph, startForceDirectedInterval) {
   const myEdges = graph.data.myEdges;
   for (let i = 0; i <= myEdges.length; i++) {

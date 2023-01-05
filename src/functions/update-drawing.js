@@ -1,5 +1,14 @@
 import * as d3 from 'd3';
 
+/**
+ * 
+ * @param {New Coordinate} arr 
+ * @param {Crossing Vertex} otherVertex 
+ * @param {Old x-coordinate} oldX 
+ * @param {Old y-coordinate} oldY 
+ * @param {*} comp 
+ * @param {Graph} graph 
+ */
 export function updateDrawing(arr, otherVertex, oldX, oldY, comp,graph) {
   const nx = arr[0];
   const ny = arr[1];

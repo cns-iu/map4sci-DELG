@@ -1,4 +1,9 @@
-
+/**
+ * 
+ * @param {array of links} links 
+ * @param {array of ideal lengths} ideal_lengths 
+ * @returns average difference
+ */
 export function idealEdgeLengthPreservation(links, ideal_lengths) {
   let total_difference = 0;
   for (let i = 0; i < links.length; i++) {

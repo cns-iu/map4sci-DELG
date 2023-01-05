@@ -1,5 +1,13 @@
 import { onSegment } from './on-segment.js';
 import { direction } from './direction.js';
+
+/**
+ * 
+ * @param {line1} line1 
+ * @param {line2} line2 
+ * @returns true if Lines cross and false otherwise
+ */
+
 export function linesCross(line1, line2) {
   const d1 = direction(line2[0], line2[1], line1[0]);
   const d2 = direction(line2[0], line2[1], line1[1]);
