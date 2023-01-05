@@ -1,7 +1,6 @@
 import { hasLinkCrossingsWithInputLink } from './has-link-crossings-with-input-link.js';
 import { stopForceDirected } from './stop-force-directed.js';
 import * as d3 from 'd3';
-// import { graph } from '../cli.js';
 import { startAddingEdges } from './start-adding-edges.js';
 import { initForceDirected } from './init-force-directed.js';
 
@@ -23,6 +22,7 @@ export class D3ForceGraph {
     this.edgeDistanceOrg = Object.assign({}, data.edgeDistance);
     this.intervalId = null;
     this.updateRefCount = 0;
+    this.maxIterations = 500;
   }
 
   async init() {
@@ -57,6 +57,10 @@ export class D3ForceGraph {
 
   start() {
     startAddingEdges(this);
+    const promise = new Promise((resolve) => {
+      this.resolve = resolve;
+    });
+    return promise;
   }
 
   startForceDirected() {
@@ -79,6 +83,9 @@ export class D3ForceGraph {
 
   stop() {
     this.simulation.stop();
+    if (this.resolve) {
+      this.resolve();
+    }
   }
 
   getJSON() {
@@ -99,18 +106,22 @@ export class D3ForceGraph {
     simulation.on('tick', handleTicked);
 
     let safeModeIter = 1;
+    let lastProgress = -1;
 
     simulation.force('link').links(links);
     const edgeDistanceOrg = Object.assign({}, t.edgeDistance);
+    const maxIterations = this.maxIterations;
 
     function handleTicked() {
       let locked = null;
       if (t.safeMode) {
         if (!locked) {
           //the end point is based on the safemodeIter. As it reaches 500 the program end
-          if (safeModeIter == 500) {
-            console.log(`Stopping after ${safeModeIter} iterations.`);
-            console.log(new Date());
+          if (safeModeIter === maxIterations) {
+            console.log(
+              `Stopping after ${safeModeIter} iterations.`,
+              new Date()
+            );
             t.dataTick = outputObject;
             stopForceDirected(
               t,
@@ -121,6 +132,12 @@ export class D3ForceGraph {
           }
           locked = true;
           safeModeIter = safeModeIter + 1;
+
+          const progress = Math.floor((safeModeIter / maxIterations) * 100);
+          if (progress !== lastProgress && progress % 10 === 0) {
+            console.log(`Force simulation progress: ${progress}%`, new Date());
+            lastProgress = progress;
+          }
 
           const crdXt = {};
           const crdYt = {};
@@ -137,9 +154,7 @@ export class D3ForceGraph {
               let introducesCrossing = false;
               for (let j = 0; j < t.nodeToLinks[i].length; j++) {
                 const link = t.nodeToLinks[i][j];
-                if (
-                  hasLinkCrossingsWithInputLink(link, t.crdX, t.crdY, t)
-                ) {
+                if (hasLinkCrossingsWithInputLink(link, t.crdX, t.crdY, t)) {
                   introducesCrossing = true;
                   break;
                 }

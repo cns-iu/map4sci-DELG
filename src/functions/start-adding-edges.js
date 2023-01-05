@@ -4,6 +4,7 @@ import { initForceDirected } from './init-force-directed.js';
 
 export function startAddingEdges(graph) {
   let myCount = 0;
+  let lastProgress = -1;
   const addEdgeInterval = setInterval(() => {
     startAddingEdgesFun();
   }, 5);
@@ -14,9 +15,15 @@ export function startAddingEdges(graph) {
     const crdX = graph.data.crdX;
     const crdY = graph.data.crdY;
 
+    const progress = Math.floor((myCount / myEdges.length) * 100);
+    if (progress !== lastProgress && progress % 5 === 0) {
+      console.log(`Edges loaded: ${progress}%`, new Date());
+      lastProgress = progress;
+    }
+
     const stepsBeforeFixPosition = 50000;
     if (myCount >= myEdges.length) {
-      //clearing the interval or previously called stop adding
+      // clearing the interval or previously called stop adding
       clearInterval(addEdgeInterval);
       console.log(
         'Ideal edge length preservation:',
@@ -30,6 +37,7 @@ export function startAddingEdges(graph) {
         linkCrossingsParam(graph.graphData.links).length
       );
 
+      console.log('Initializing force directed graph...', new Date());
       initForceDirected(graph, graph.intervalId);
       return;
     }
@@ -42,10 +50,8 @@ export function startAddingEdges(graph) {
     }
 
     const existingNode = graph.graphData.nodes[labelToId[myEdges[myCount][0]]];
-    console.log(graph.graphData.nodes[labelToId[myEdges[myCount][0]]])
     const newId = labelToId[myEdges[myCount][1]];
     const newNode = { id: newId, name: myEdges[myCount][1] };
-
     newNode.x = crdX[newId];
     newNode.y = crdY[newId];
     const newLink = { source: existingNode.id, target: newId };

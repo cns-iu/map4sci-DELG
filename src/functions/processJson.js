@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 
 export function processJson(data) {
-  console.log(data[0].children[3]);
+  // console.log(data[0].children[3]);
   const idToLabel = {};
   const labelToId = {};
   let myEdges = [];
@@ -9,25 +9,60 @@ export function processJson(data) {
   const collectiveData = {};
   const crdX = {};
   const crdY = {};
-  data[0].children.forEach((element) => {
-    if (element.type == 'node_stmt') {
-      idToLabel[element.node_id.id] = element.attr_list[0].eq;
-      //   console.log(element.attr_list)
-      // labelToId[element.attr_list[0].eq] = element.node_id.id;
-      edgeDistance[element.node_id.id] = element.attr_list[2].eq;
+
+  const children = data[0].children
+    .filter((e) => e.type === 'edge_stmt')
+    .map((e) => ({
+      parent: e.edge_list[0].id,
+      child: e.edge_list[1].id,
+      weight: parseInt(e.attr_list[0].eq, 10),
+    }))
+    .reduce((acc, edge) => {
+      acc[edge.parent] = acc[edge.parent] || {};
+      acc[edge.parent][edge.child] = edge.weight;
+      return acc;
+    }, {});
+
+  const nodes = data[0].children
+    .filter((e) => e.type === 'node_stmt')
+    .map((n) => ({
+      id: n.node_id.id + '',
+      label: n.attr_list[0].eq,
+      weight: parseInt(n.attr_list.find((a) => a.id === 'weight')?.eq, 10) ?? 0,
+    }))
+    .filter((n) => n.id in children)
+    .sort((a, b) => b.weight - a.weight);
+
+  const startNodeId = nodes[0].id;
+
+  const seen = new Set();
+  let currentId = 0;
+  const bfsQueue = [startNodeId];
+  while (bfsQueue.length > 0) {
+    //changed to shift
+    const parent = bfsQueue.shift();
+    if (labelToId[parent] === undefined) {
+      const id = currentId++;
+      idToLabel[id] = parent;
+      labelToId[parent] = id;
     }
-  });
-  data[0].children.forEach((element) => {
-    let tempArray = [];
-    if (element.type == 'edge_stmt') {
-      element.edge_list.forEach((element) => {
-        tempArray.push(idToLabel[element.id]);
-      });
+
+    for (const child of Object.keys(children[parent] || {})) {
+      if (labelToId[child] === undefined) {
+        const id = currentId++;
+        idToLabel[id] = child;
+        labelToId[child] = id;
+      }
+
+      const edgeId = `${parent} -- ${child}`;
+      if (!seen.has(edgeId)) {
+        myEdges.push([parent, child]);
+        edgeDistance[myEdges.length - 1] = children[parent][child] || 0;
+        bfsQueue.push(child);
+        seen.add(edgeId);
+      }
     }
-    if (tempArray.length != 0) {
-      myEdges.push(tempArray);
-    }
-  });
+  }
 
   Object.keys(idToLabel).forEach((element) => {
     crdX[element] = Math.random() * (10000 + 10000) - 10000;
@@ -38,9 +73,6 @@ export function processJson(data) {
   collectiveData['edgeDistance'] = edgeDistance;
   collectiveData['crdX'] = crdX;
   collectiveData['crdY'] = crdY;
-  for (let key in idToLabel) {
-    labelToId[idToLabel[key]] = key;
-  }
   collectiveData['labelToId'] = labelToId;
 
   let experimentData = `./examples/experimentData.json`;
@@ -51,6 +83,5 @@ export function processJson(data) {
       encoding: 'utf8',
     }
   );
-  // console.log(edgeDistance);
   return collectiveData;
 }
