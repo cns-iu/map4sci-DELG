@@ -9,6 +9,11 @@ if (process.argv.length !== 4) {
   process.exit(-1);
 }
 
+/**
+ *
+ * @param {Dot formatted input file} inputFile
+ * @param {.tsv output file} outputFile
+ */
 async function main(inputFile, outputFile) {
   const data = parse(
     fs.readFileSync(inputFile, { encoding: 'utf8', flag: 'r' })

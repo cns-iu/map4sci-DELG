@@ -11,7 +11,7 @@ npm ci
 ## Input Data
 
 ```
-
+dot formated file containing nodes and edges
 ```
 
 ## Running
