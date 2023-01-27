@@ -18,10 +18,10 @@ async function main(inputFile, outputFile) {
   const data = parse(
     fs.readFileSync(inputFile, { encoding: 'utf8', flag: 'r' })
   );
-  const convertedData = processDot(data);
+  const { collectiveData, cy } = await processDot(data);
 
   console.log('Starting DELG algorithm...', new Date());
-  const graph = new D3ForceGraph(500, 500, convertedData);
+  const graph = new D3ForceGraph(500, 500, collectiveData);
   graph.init();
   myInit(graph);
   await graph.start();
@@ -30,6 +30,12 @@ async function main(inputFile, outputFile) {
     .map((c) => `${c.x}\t${c.y}\t${c.id}`)
     .join('\n');
 
+  for (const { id, x, y } of graph.getJSON()) {
+    cy.$id(id.toString()).position({ x, y });
+  }
+
+  const networkContent = cy.json();
+  fs.writeFileSync('test-output.cyjs', JSON.stringify(networkContent, null, 2));
   fs.writeFileSync(outputFile, coordinates);
 }
 
