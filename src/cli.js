@@ -3,6 +3,7 @@ import { D3ForceGraph } from './functions/d3-force-graph.js';
 import { myInit } from './functions/my-init.js';
 import parse from 'dotparser';
 import { processDot } from './functions/processDot.js';
+import { cytoscapeLayout } from './functions/cytoscape-layout.js';
 
 if (process.argv.length !== 4) {
   console.error(`${process.argv[0]}: <input file> <output file>`);
@@ -15,13 +16,17 @@ if (process.argv.length !== 4) {
  * @param {.tsv output file} outputFile
  */
 async function main(inputFile, outputFile) {
-  const data = parse(
-    fs.readFileSync(inputFile, { encoding: 'utf8', flag: 'r' })
-  );
-  const { collectiveData, cy } = await processDot(data);
 
+  const data = JSON.parse(fs.readFileSync(inputFile))
+  // const data = parse(
+  //   fs.readFileSync(inputFile, { encoding: 'utf8', flag: 'r' })
+  // );
+  // const { collectiveData, cy } = await processDot(data);
+  const cy = await cytoscapeLayout(data);
+  const preContent = cy.json();
+  fs.writeFileSync('test-input.cyjs', JSON.stringify(preContent, null, 2));
   console.log('Starting DELG algorithm...', new Date());
-  const graph = new D3ForceGraph(500, 500, collectiveData);
+  const graph = new D3ForceGraph(500, 500, data);
   graph.init();
   myInit(graph);
   await graph.start();

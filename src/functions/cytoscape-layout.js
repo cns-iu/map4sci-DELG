@@ -11,7 +11,6 @@ export async function cytoscapeLayout(collectiveData) {
         id: node.toString(),
         name: collectiveData.idToLabel[node],
       },
-      // position: { x: collectiveData.crdX[node], y: collectiveData.crdY[node] },
     });
   });
 
@@ -28,14 +27,5 @@ export async function cytoscapeLayout(collectiveData) {
     });
   });
 
-  // const layout = cy.layout({
-  //   name: 'breadthfirst',
-  //   directed: true,
-  //   avoidOverlap: true,
-  //   spacingFactor: 7,
-  // });
-  // const layoutFinished = cy.pon('layoutstop');
-  // layout.run();
-  // await layoutFinished;
   return cy;
 }
