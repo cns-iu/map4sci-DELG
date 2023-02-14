@@ -284,5 +284,20 @@ print("crd_y = ", crd_y)
 
 #print("Time taken:", time.time()-start_time)
 
+output_file_name = sys.argv[2]
+
+output = {} 
+output["myEdges"] = bfs_edges
+output["edgeDistance"] = edge_distance
+output["idToLabel"] = index_to_label
+output["labelToId"] = label_to_index
+output["crdX"] = crd_x
+output["crdY"] = crd_y
+
+
+import json
+with open(output_file_name, 'w') as f:
+    json.dump(output, f, indent=2)
+
 
 

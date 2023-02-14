@@ -1,0 +1,918 @@
+{
+  "myEdges": [
+    [
+      "mechanism design",
+      "auction theory"
+    ],
+    [
+      "mechanism design",
+      "algorithmic game"
+    ],
+    [
+      "auction theory",
+      "market design"
+    ],
+    [
+      "algorithmic game",
+      "approximation al"
+    ],
+    [
+      "market design",
+      "auctions"
+    ],
+    [
+      "approximation al",
+      "combinatorial op"
+    ],
+    [
+      "auctions",
+      "industrial organ"
+    ],
+    [
+      "combinatorial op",
+      "operations resea"
+    ],
+    [
+      "industrial organ",
+      "applied microeco"
+    ],
+    [
+      "operations resea",
+      "optimization"
+    ],
+    [
+      "applied microeco",
+      "labor economics"
+    ],
+    [
+      "optimization",
+      "control"
+    ],
+    [
+      "labor economics",
+      "development econ"
+    ],
+    [
+      "control",
+      "guidance"
+    ],
+    [
+      "control",
+      "mechatronics"
+    ],
+    [
+      "development econ",
+      "agricultural eco"
+    ],
+    [
+      "development econ",
+      "political econom"
+    ],
+    [
+      "guidance",
+      "navigation"
+    ],
+    [
+      "mechatronics",
+      "robotics"
+    ],
+    [
+      "agricultural eco",
+      "environmental ec"
+    ],
+    [
+      "political econom",
+      "comparative poli"
+    ],
+    [
+      "navigation",
+      "gnss"
+    ],
+    [
+      "robotics",
+      "artificial intel"
+    ],
+    [
+      "comparative poli",
+      "political partie"
+    ],
+    [
+      "gnss",
+      "geodesy"
+    ],
+    [
+      "artificial intel",
+      "computer vision"
+    ],
+    [
+      "artificial intel",
+      "knowledge repres"
+    ],
+    [
+      "political partie",
+      "elections"
+    ],
+    [
+      "geodesy",
+      "geophysics"
+    ],
+    [
+      "computer vision",
+      "computer graphic"
+    ],
+    [
+      "knowledge repres",
+      "automated reason"
+    ],
+    [
+      "elections",
+      "congress"
+    ],
+    [
+      "elections",
+      "political scienc"
+    ],
+    [
+      "geophysics",
+      "geology"
+    ],
+    [
+      "computer graphic",
+      "visualization"
+    ],
+    [
+      "automated reason",
+      "verification"
+    ],
+    [
+      "congress",
+      "american politic"
+    ],
+    [
+      "political scienc",
+      "international re"
+    ],
+    [
+      "geology",
+      "sedimentology"
+    ],
+    [
+      "geology",
+      "geochemistry"
+    ],
+    [
+      "visualization",
+      "visual analytics"
+    ],
+    [
+      "verification",
+      "formal methods"
+    ],
+    [
+      "american politic",
+      "judicial politic"
+    ],
+    [
+      "international re",
+      "international po"
+    ],
+    [
+      "sedimentology",
+      "stratigraphy"
+    ],
+    [
+      "geochemistry",
+      "mineralogy"
+    ],
+    [
+      "visual analytics",
+      "information visu"
+    ],
+    [
+      "formal methods",
+      "programming lang"
+    ],
+    [
+      "judicial politic",
+      "courts"
+    ],
+    [
+      "international po",
+      "comparative po02"
+    ],
+    [
+      "stratigraphy",
+      "paleontology"
+    ],
+    [
+      "mineralogy",
+      "crystallography"
+    ],
+    [
+      "information visu",
+      "graph drawing"
+    ],
+    [
+      "programming lang",
+      "compilers"
+    ],
+    [
+      "courts",
+      "law"
+    ],
+    [
+      "comparative po02",
+      "welfare state"
+    ],
+    [
+      "paleontology",
+      "paleobiology"
+    ],
+    [
+      "crystallography",
+      "crystal engineer"
+    ],
+    [
+      "graph drawing",
+      "computational ge"
+    ],
+    [
+      "compilers",
+      "computer archite"
+    ],
+    [
+      "law",
+      "economics"
+    ],
+    [
+      "welfare state",
+      "social policy"
+    ],
+    [
+      "paleobiology",
+      "macroevolution"
+    ],
+    [
+      "crystal engineer",
+      "supramolecular c"
+    ],
+    [
+      "computational ge",
+      "algorithms"
+    ],
+    [
+      "computer archite",
+      "operating system"
+    ],
+    [
+      "economics",
+      "econometrics"
+    ],
+    [
+      "social policy",
+      "poverty"
+    ],
+    [
+      "macroevolution",
+      "phylogenetics"
+    ],
+    [
+      "supramolecular c",
+      "self-assembly"
+    ],
+    [
+      "operating system",
+      "distributed syst"
+    ],
+    [
+      "econometrics",
+      "time series"
+    ],
+    [
+      "poverty",
+      "inequality"
+    ],
+    [
+      "phylogenetics",
+      "biogeography"
+    ],
+    [
+      "self-assembly",
+      "colloids"
+    ],
+    [
+      "distributed syst",
+      "computer network"
+    ],
+    [
+      "time series",
+      "financial econom"
+    ],
+    [
+      "inequality",
+      "family"
+    ],
+    [
+      "biogeography",
+      "biodiversity"
+    ],
+    [
+      "colloids",
+      "polymers"
+    ],
+    [
+      "computer network",
+      "software defined"
+    ],
+    [
+      "family",
+      "work"
+    ],
+    [
+      "biodiversity",
+      "ecology"
+    ],
+    [
+      "polymers",
+      "biomaterials"
+    ],
+    [
+      "software defined",
+      "optical networks"
+    ],
+    [
+      "work",
+      "occupational"
+    ],
+    [
+      "ecology",
+      "evolution"
+    ],
+    [
+      "optical networks",
+      "optical communic"
+    ],
+    [
+      "occupational",
+      "environmental he"
+    ],
+    [
+      "evolution",
+      "genetics"
+    ],
+    [
+      "optical communic",
+      "photonics"
+    ],
+    [
+      "environmental he",
+      "air pollution"
+    ],
+    [
+      "genetics",
+      "molecular biolog"
+    ],
+    [
+      "photonics",
+      "nonlinear optics"
+    ],
+    [
+      "air pollution",
+      "atmospheric chem"
+    ],
+    [
+      "molecular biolog",
+      "microbiology"
+    ],
+    [
+      "nonlinear optics",
+      "lasers"
+    ],
+    [
+      "atmospheric chem",
+      "air quality"
+    ],
+    [
+      "microbiology",
+      "immunology"
+    ],
+    [
+      "immunology",
+      "autoimmunity"
+    ]
+  ],
+  "edgeDistance": {
+    "0": 200,
+    "1": 200,
+    "2": 200,
+    "3": 200,
+    "4": 200,
+    "5": 200,
+    "6": 200,
+    "7": 200,
+    "8": 200,
+    "9": 200,
+    "10": 200,
+    "11": 200,
+    "12": 200,
+    "13": 200,
+    "14": 200,
+    "15": 200,
+    "16": 200,
+    "17": 200,
+    "18": 200,
+    "19": 200,
+    "20": 200,
+    "21": 200,
+    "22": 200,
+    "23": 200,
+    "24": 200,
+    "25": 200,
+    "26": 200,
+    "27": 200,
+    "28": 200,
+    "29": 200,
+    "30": 200,
+    "31": 200,
+    "32": 200,
+    "33": 200,
+    "34": 200,
+    "35": 200,
+    "36": 200,
+    "37": 200,
+    "38": 200,
+    "39": 200,
+    "40": 200,
+    "41": 200,
+    "42": 200,
+    "43": 200,
+    "44": 200,
+    "45": 200,
+    "46": 200,
+    "47": 200,
+    "48": 200,
+    "49": 200,
+    "50": 200,
+    "51": 200,
+    "52": 200,
+    "53": 200,
+    "54": 200,
+    "55": 200,
+    "56": 200,
+    "57": 200,
+    "58": 200,
+    "59": 200,
+    "60": 200,
+    "61": 200,
+    "62": 200,
+    "63": 200,
+    "64": 200,
+    "65": 200,
+    "66": 200,
+    "67": 200,
+    "68": 200,
+    "69": 200,
+    "70": 200,
+    "71": 200,
+    "72": 200,
+    "73": 200,
+    "74": 200,
+    "75": 200,
+    "76": 200,
+    "77": 200,
+    "78": 200,
+    "79": 200,
+    "80": 200,
+    "81": 200,
+    "82": 200,
+    "83": 200,
+    "84": 200,
+    "85": 200,
+    "86": 200,
+    "87": 200,
+    "88": 200,
+    "89": 200,
+    "90": 200,
+    "91": 200,
+    "92": 200,
+    "93": 200,
+    "94": 200,
+    "95": 200,
+    "96": 200,
+    "97": 200,
+    "98": 200,
+    "99": 200
+  },
+  "idToLabel": {
+    "0": "mechanism design",
+    "1": "auction theory",
+    "2": "algorithmic game",
+    "3": "market design",
+    "4": "approximation al",
+    "5": "auctions",
+    "6": "combinatorial op",
+    "7": "industrial organ",
+    "8": "operations resea",
+    "9": "applied microeco",
+    "10": "optimization",
+    "11": "labor economics",
+    "12": "control",
+    "13": "development econ",
+    "14": "guidance",
+    "15": "mechatronics",
+    "16": "agricultural eco",
+    "17": "political econom",
+    "18": "navigation",
+    "19": "robotics",
+    "20": "environmental ec",
+    "21": "comparative poli",
+    "22": "gnss",
+    "23": "artificial intel",
+    "24": "political partie",
+    "25": "geodesy",
+    "26": "computer vision",
+    "27": "knowledge repres",
+    "28": "elections",
+    "29": "geophysics",
+    "30": "computer graphic",
+    "31": "automated reason",
+    "32": "congress",
+    "33": "political scienc",
+    "34": "geology",
+    "35": "visualization",
+    "36": "verification",
+    "37": "american politic",
+    "38": "international re",
+    "39": "sedimentology",
+    "40": "geochemistry",
+    "41": "visual analytics",
+    "42": "formal methods",
+    "43": "judicial politic",
+    "44": "international po",
+    "45": "stratigraphy",
+    "46": "mineralogy",
+    "47": "information visu",
+    "48": "programming lang",
+    "49": "courts",
+    "50": "comparative po02",
+    "51": "paleontology",
+    "52": "crystallography",
+    "53": "graph drawing",
+    "54": "compilers",
+    "55": "law",
+    "56": "welfare state",
+    "57": "paleobiology",
+    "58": "crystal engineer",
+    "59": "computational ge",
+    "60": "computer archite",
+    "61": "economics",
+    "62": "social policy",
+    "63": "macroevolution",
+    "64": "supramolecular c",
+    "65": "algorithms",
+    "66": "operating system",
+    "67": "econometrics",
+    "68": "poverty",
+    "69": "phylogenetics",
+    "70": "self-assembly",
+    "71": "distributed syst",
+    "72": "time series",
+    "73": "inequality",
+    "74": "biogeography",
+    "75": "colloids",
+    "76": "computer network",
+    "77": "financial econom",
+    "78": "family",
+    "79": "biodiversity",
+    "80": "polymers",
+    "81": "software defined",
+    "82": "work",
+    "83": "ecology",
+    "84": "biomaterials",
+    "85": "optical networks",
+    "86": "occupational",
+    "87": "evolution",
+    "88": "optical communic",
+    "89": "environmental he",
+    "90": "genetics",
+    "91": "photonics",
+    "92": "air pollution",
+    "93": "molecular biolog",
+    "94": "nonlinear optics",
+    "95": "atmospheric chem",
+    "96": "microbiology",
+    "97": "lasers",
+    "98": "air quality",
+    "99": "immunology",
+    "100": "autoimmunity"
+  },
+  "labelToId": {
+    "mechanism design": 0,
+    "auction theory": 1,
+    "algorithmic game": 2,
+    "market design": 3,
+    "approximation al": 4,
+    "auctions": 5,
+    "combinatorial op": 6,
+    "industrial organ": 7,
+    "operations resea": 8,
+    "applied microeco": 9,
+    "optimization": 10,
+    "labor economics": 11,
+    "control": 12,
+    "development econ": 13,
+    "guidance": 14,
+    "mechatronics": 15,
+    "agricultural eco": 16,
+    "political econom": 17,
+    "navigation": 18,
+    "robotics": 19,
+    "environmental ec": 20,
+    "comparative poli": 21,
+    "gnss": 22,
+    "artificial intel": 23,
+    "political partie": 24,
+    "geodesy": 25,
+    "computer vision": 26,
+    "knowledge repres": 27,
+    "elections": 28,
+    "geophysics": 29,
+    "computer graphic": 30,
+    "automated reason": 31,
+    "congress": 32,
+    "political scienc": 33,
+    "geology": 34,
+    "visualization": 35,
+    "verification": 36,
+    "american politic": 37,
+    "international re": 38,
+    "sedimentology": 39,
+    "geochemistry": 40,
+    "visual analytics": 41,
+    "formal methods": 42,
+    "judicial politic": 43,
+    "international po": 44,
+    "stratigraphy": 45,
+    "mineralogy": 46,
+    "information visu": 47,
+    "programming lang": 48,
+    "courts": 49,
+    "comparative po02": 50,
+    "paleontology": 51,
+    "crystallography": 52,
+    "graph drawing": 53,
+    "compilers": 54,
+    "law": 55,
+    "welfare state": 56,
+    "paleobiology": 57,
+    "crystal engineer": 58,
+    "computational ge": 59,
+    "computer archite": 60,
+    "economics": 61,
+    "social policy": 62,
+    "macroevolution": 63,
+    "supramolecular c": 64,
+    "algorithms": 65,
+    "operating system": 66,
+    "econometrics": 67,
+    "poverty": 68,
+    "phylogenetics": 69,
+    "self-assembly": 70,
+    "distributed syst": 71,
+    "time series": 72,
+    "inequality": 73,
+    "biogeography": 74,
+    "colloids": 75,
+    "computer network": 76,
+    "financial econom": 77,
+    "family": 78,
+    "biodiversity": 79,
+    "polymers": 80,
+    "software defined": 81,
+    "work": 82,
+    "ecology": 83,
+    "biomaterials": 84,
+    "optical networks": 85,
+    "occupational": 86,
+    "evolution": 87,
+    "optical communic": 88,
+    "environmental he": 89,
+    "genetics": 90,
+    "photonics": 91,
+    "air pollution": 92,
+    "molecular biolog": 93,
+    "nonlinear optics": 94,
+    "atmospheric chem": 95,
+    "microbiology": 96,
+    "lasers": 97,
+    "air quality": 98,
+    "immunology": 99,
+    "autoimmunity": 100
+  },
+  "crdX": {
+    "0": 500,
+    "1": 579.4295781269561,
+    "3": 658.8591562539123,
+    "5": 738.2887343808684,
+    "7": 817.7183125078245,
+    "9": 897.1478906347807,
+    "11": 976.5774687617368,
+    "13": 1056.007046888693,
+    "16": 1255.4068367426892,
+    "20": 1454.8066265966854,
+    "17": 1120.988642624788,
+    "21": 1185.9702383608833,
+    "24": 1250.9518340969785,
+    "28": 1315.9334298330737,
+    "32": 1485.1906613718866,
+    "37": 1654.4478929106995,
+    "43": 1823.7051244495124,
+    "49": 1992.9623559883253,
+    "55": 2162.219587527138,
+    "61": 2331.476819065951,
+    "67": 2500.734050604764,
+    "72": 2669.991282143577,
+    "77": 2839.24851368239,
+    "33": 1300.7636485615349,
+    "38": 1285.593867289996,
+    "44": 1270.4240860184573,
+    "50": 1255.2543047469185,
+    "56": 1240.0845234753797,
+    "62": 1224.914742203841,
+    "68": 1209.744960932302,
+    "73": 1194.5751796607633,
+    "78": 1179.4053983892245,
+    "82": 1164.2356171176857,
+    "86": 1149.065835846147,
+    "89": 1133.8960545746081,
+    "92": 1118.7262733030693,
+    "95": 1103.5564920315305,
+    "98": 1088.3867107599917,
+    "2": 420.5704218730439,
+    "4": 341.14084374608785,
+    "6": 261.7112656191318,
+    "8": 182.2816874921757,
+    "10": 102.85210936521965,
+    "12": 23.422531238263588,
+    "14": -171.54200477477764,
+    "18": -366.50654078781884,
+    "22": -561.47107680086,
+    "25": -756.4356128139012,
+    "29": -951.4001488269424,
+    "34": -1146.3646848399837,
+    "39": -1343.6233210573396,
+    "45": -1540.8819572746954,
+    "51": -1738.1405934920513,
+    "57": -1935.399229709407,
+    "63": -2132.657865926763,
+    "69": -2329.916502144119,
+    "74": -2527.175138361475,
+    "79": -2724.433774578831,
+    "83": -2921.6924107961872,
+    "87": -3118.9510470135433,
+    "90": -3316.2096832308994,
+    "93": -3513.4683194482554,
+    "96": -3710.7269556656115,
+    "99": -3907.9855918829676,
+    "100": -4105.244228100323,
+    "40": -1274.4219084057595,
+    "46": -1402.4791319715353,
+    "52": -1530.536355537311,
+    "58": -1658.5935791030868,
+    "64": -1786.6508026688625,
+    "70": -1914.7080262346383,
+    "75": -2042.765249800414,
+    "80": -2170.82247336619,
+    "84": -2298.879696931966,
+    "15": 141.78074323305657,
+    "19": 260.1389552278495,
+    "23": 378.4971672226425,
+    "26": 380.1506182048673,
+    "30": 381.8040691870922,
+    "35": 383.45752016931704,
+    "41": 385.1109711515419,
+    "47": 386.76442213376674,
+    "53": 388.4178731159916,
+    "59": 390.07132409821645,
+    "65": 391.7247750804413,
+    "27": 540.6884347306266,
+    "31": 702.8797022386107,
+    "36": 865.0709697465948,
+    "42": 1027.2622372545788,
+    "48": 1189.453504762563,
+    "54": 1351.644772270547,
+    "60": 1513.8360397785311,
+    "66": 1676.0273072865152,
+    "71": 1838.2185747944993,
+    "76": 2000.4098423024834,
+    "81": 2162.6011098104673,
+    "85": 2324.792377318451,
+    "88": 2486.983644826435,
+    "91": 2649.174912334419,
+    "94": 2811.3661798424027,
+    "97": 2973.5574473503866
+  },
+  "crdY": {
+    "0": 500,
+    "1": 683.5509251367962,
+    "3": 867.1018502735924,
+    "5": 1050.6527754103886,
+    "7": 1234.2037005471848,
+    "9": 1417.754625683981,
+    "11": 1601.3055508207772,
+    "13": 1784.8564759575734,
+    "16": 1800.3394926591757,
+    "20": 1815.822509360778,
+    "17": 1974.0056028801966,
+    "21": 2163.15472980282,
+    "24": 2352.3038567254434,
+    "28": 2541.452983648067,
+    "32": 2647.9986995254153,
+    "37": 2754.5444154027637,
+    "43": 2861.090131280112,
+    "49": 2967.6358471574604,
+    "55": 3074.1815630348087,
+    "61": 3180.727278912157,
+    "67": 3287.2729947895054,
+    "72": 3393.818710666854,
+    "77": 3500.364426544202,
+    "33": 2740.8768481582447,
+    "38": 2940.3007126684224,
+    "44": 3139.7245771786,
+    "50": 3339.148441688778,
+    "56": 3538.5723061989556,
+    "62": 3737.9961707091334,
+    "68": 3937.420035219311,
+    "73": 4136.843899729489,
+    "78": 4336.267764239667,
+    "82": 4535.691628749844,
+    "86": 4735.115493260022,
+    "89": 4934.5393577702,
+    "92": 5133.9632222803775,
+    "95": 5333.387086790555,
+    "98": 5532.810951300733,
+    "2": 316.44907486320375,
+    "4": 132.8981497264075,
+    "6": -50.652775410388756,
+    "8": -234.203700547185,
+    "10": -417.75462568398126,
+    "12": -601.3055508207775,
+    "14": -645.9018477210758,
+    "18": -690.4981446213741,
+    "22": -735.0944415216724,
+    "25": -779.6907384219707,
+    "29": -824.2870353222689,
+    "34": -868.8833322225672,
+    "39": -835.882871048989,
+    "45": -802.8824098754109,
+    "51": -769.8819487018327,
+    "57": -736.8814875282545,
+    "63": -703.8810263546764,
+    "69": -670.8805651810982,
+    "74": -637.88010400752,
+    "79": -604.8796428339418,
+    "83": -571.8791816603637,
+    "87": -538.8787204867855,
+    "90": -505.8782593132073,
+    "93": -472.87779813962914,
+    "96": -439.87733696605096,
+    "99": -406.8768757924728,
+    "100": -373.8764146188946,
+    "40": -1022.510632832273,
+    "46": -1176.137933441979,
+    "52": -1329.7652340516847,
+    "58": -1483.3925346613905,
+    "64": -1637.0198352710963,
+    "70": -1790.6471358808021,
+    "75": -1944.274436490508,
+    "80": -2097.9017371002137,
+    "84": -2251.5290377099195,
+    "15": -762.5238303470014,
+    "19": -923.7421098732252,
+    "23": -1084.960389399449,
+    "26": -1284.953554532284,
+    "30": -1484.946719665119,
+    "35": -1684.939884797954,
+    "41": -1884.933049930789,
+    "47": -2084.9262150636237,
+    "53": -2284.9193801964584,
+    "59": -2484.912545329293,
+    "65": -2684.905710462128,
+    "27": -1201.9817239677814,
+    "31": -1319.0030585361137,
+    "36": -1436.024393104446,
+    "42": -1553.0457276727784,
+    "48": -1670.0670622411108,
+    "54": -1787.088396809443,
+    "60": -1904.1097313777755,
+    "66": -2021.1310659461078,
+    "71": -2138.15240051444,
+    "76": -2255.1737350827725,
+    "81": -2372.195069651105,
+    "85": -2489.216404219437,
+    "88": -2606.2377387877696,
+    "91": -2723.259073356102,
+    "94": -2840.2804079244343,
+    "97": -2957.3017424927666
+  }
+}

@@ -8,6 +8,7 @@ import { initForceDirected } from './init-force-directed.js';
  * @returns Edge Interval
  */
 export function startAddingEdges(graph) {
+  // console.log(graph.graphData.nodes)
   let myCount = 0;
   let lastProgress = -1;
   const addEdgeInterval = setInterval(() => {
@@ -55,7 +56,6 @@ export function startAddingEdges(graph) {
     }
    
     const existingNode = graph.graphData.nodes[labelToId[myEdges[myCount][0]]];
-    // console.log(existingNode)
     const newId = labelToId[myEdges[myCount][1]];
     const newNode = { id: newId, name: myEdges[myCount][1] };
     newNode.x = crdX[newId];

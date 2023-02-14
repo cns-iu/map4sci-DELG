@@ -63,6 +63,41 @@ for i in range(len(my_edges)):
 get_drawing_coordinates(G, src, -1, 0, 2*math.pi, crd_x[label_to_index[src]], crd_y[label_to_index[src]], crd_x, crd_y, cnt, label_to_index, edges_to_index, edge_distance)
 # print(G.nodes)
 
+
+
+# import json
+# with open(output_file_name, 'w') as f:
+#     json.dump(pos0, f)
+
+output = {}
+output["crdX"] = dict()
+output["crdY"] = dict()
+for i in range(len(crd_x)):
+    output["crdX"][i] = crd_x[i]
+    output["crdY"][i] = crd_y[i]
+
+bfs_edges = []
+center = nx.center(G)[0]
+id_to_lab = dict()
+count = 0
+id_to_lab[count] = center
+lab_to_id = dict()
+lab_to_id[center] = count
+count = count + 1
+for e in nx.bfs_edges(G, center):
+ u, v = e
+ bfs_edges.append([u, v])
+ id_to_lab[count] = v
+ lab_to_id[v] = count
+ count = count + 1
+output["myEdges"] = bfs_edges
+edge_distance = dict()
+for i,e in enumerate(bfs_edges):
+ edge_distance[i] = 100
+output["edgeDistance"] = edge_distance
+output["idToLabel"] = id_to_lab
+output["labelToId"] = lab_to_id
+
 pos0 = {}
 
 
@@ -77,9 +112,9 @@ for u, v, w in my_edges:
     G.add_edge(index_to_label[u], index_to_label[v],weight=w)
 
 H = convert_node_labels_to_integers(G, 0, 'decreasing degree', 'label')
-write_dot(H, "./examples/graph.dot")
+# write_dot(H, "./examples/graph.dot")
 
 import json
 with open(output_file_name, 'w') as f:
-    json.dump(pos0, f)
+    json.dump(output, f, indent=2)
 
