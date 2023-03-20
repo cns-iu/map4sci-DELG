@@ -5,10 +5,10 @@ import parse from 'dotparser';
 import { processDot } from './functions/processDot.js';
 import { cytoscapeLayout } from './functions/cytoscape-layout.js';
 
-// if (process.argv.length !== 4) {
-//   console.error(`${process.argv[0]}: <input file> <output file>`);
-//   process.exit(-1);
-// }
+if (process.argv.length !== 4) {
+  console.error(`${process.argv[0]}: <input file> <output file>`);
+  process.exit(-1);
+}
 
 /**
  *
@@ -17,10 +17,6 @@ import { cytoscapeLayout } from './functions/cytoscape-layout.js';
  */
 async function main(inputFile, outputFile) {
   const data = JSON.parse(fs.readFileSync(inputFile));
-  // const data = parse(
-  //   fs.readFileSync(inputFile, { encoding: 'utf8', flag: 'r' })
-  // );
-  // const { collectiveData, cy } = await processDot(data);
   const cy = await cytoscapeLayout(data);
   const preContent = cy.json();
   fs.writeFileSync('test-input.cyjs', JSON.stringify(preContent, null, 2));

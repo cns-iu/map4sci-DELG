@@ -1,5 +1,9 @@
 import { MyGraph } from './my-graph.js';
 
+/**
+ * inititializing graph
+ * @param {*} graph 
+ */
 export function myInit(graph) {
   const idToLabel = graph.data.idToLabel;
   const myEdges = graph.data.myEdges;

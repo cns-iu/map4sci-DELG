@@ -52,6 +52,9 @@ examples/inputs/
 examples/batchtree/
 examples/output/
 examples/TopicsLayersData
+examples/output.tsv
+test-input.cyjs
+test-output.cyjs
 
 
 # Snowpack dependency directory (https://snowpack.dev/)

@@ -1,3 +1,11 @@
+/**
+ * 
+ * @param {*} pi 
+ * @param {*} pj 
+ * @param {*} pk 
+ * @returns 
+ */
+
 export function onSegment(pi, pj, pk) {
   return (
     Math.min(pi[0], pj[0]) <= pk[0] &&
