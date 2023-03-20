@@ -42,6 +42,18 @@ build/Release
 node_modules/
 jspm_packages/
 
+# Python files
+*.pyc
+__pycache__/
+
+# Dataset Dir
+examples/csv/
+examples/inputs/
+examples/batchtree/
+examples/output/
+examples/TopicsLayersData
+
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 

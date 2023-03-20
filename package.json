@@ -15,6 +15,7 @@
     "dotparser": "^1.1.1",
     "dotparser-normalized": "^0.1.0",
     "graphology": "^0.25.1",
+    "graphviz-builder": "^0.1.1",
     "node-fetch": "^3.2.0"
   },
   "type": "module"
