@@ -5,10 +5,10 @@ import parse from 'dotparser';
 import { processDot } from './functions/processDot.js';
 import { cytoscapeLayout } from './functions/cytoscape-layout.js';
 
-if (process.argv.length !== 4) {
-  console.error(`${process.argv[0]}: <input file> <output file>`);
-  process.exit(-1);
-}
+// if (process.argv.length !== 4) {
+//   console.error(`${process.argv[0]}: <input file> <output file>`);
+//   process.exit(-1);
+// }
 
 /**
  *
@@ -16,8 +16,7 @@ if (process.argv.length !== 4) {
  * @param {.tsv output file} outputFile
  */
 async function main(inputFile, outputFile) {
-
-  const data = JSON.parse(fs.readFileSync(inputFile))
+  const data = JSON.parse(fs.readFileSync(inputFile));
   // const data = parse(
   //   fs.readFileSync(inputFile, { encoding: 'utf8', flag: 'r' })
   // );
@@ -30,6 +29,13 @@ async function main(inputFile, outputFile) {
   graph.init();
   myInit(graph);
   await graph.start();
+
+  const jsonCord = {};
+  for (const { id, x, y } of graph.getJSON()) {
+    data.crdX[id] = x;
+    data.crdY[id] = y;
+  }
+
   const coordinates = graph
     .getJSON()
     .map((c) => `${c.x}\t${c.y}\t${c.id}`)
