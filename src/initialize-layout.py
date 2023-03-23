@@ -194,3 +194,5 @@ output["crdY"] = crd_y
 
 with open(output_file_name, 'w') as f:
     json.dump(output, f, indent=2)
+
+print("Initialization Compllete")

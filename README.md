@@ -14,13 +14,13 @@ npm ci
 input: dot formated file which is the network
 output: json file which will be the input for the Algorithm
 
-eg: python3 src/createInit.py examples/batchtree/last-fm.dot examples/inputs/lastfm.json 
+eg: python3 src/initilize-layout.py examples/batchtree/last-fm.dot examples/inputs/lastfm.json 
 ```
 
 ## Input Data
 
 ```
-dot formated file containing nodes and edges
+Output of the initialization which is of type .json will be the input
 ```
 
 ## Running

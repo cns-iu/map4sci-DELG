@@ -1,3 +1,0 @@
-python3 cg_init.py Graph_8.txt.weighted.mtx Graph_8.txt.labels output.json
-python3 delg_init.py Graph_8.txt.weighted.mtx Graph_8.txt.labels output.json
-
