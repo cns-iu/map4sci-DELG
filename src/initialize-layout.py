@@ -2,7 +2,7 @@ import json
 import networkx as nx
 from networkx.drawing.nx_agraph import read_dot as nx_read_dot
 import sys
-from generate_initial_layout import *
+
 
 levels = 1
 max_label_size = 16
@@ -195,4 +195,4 @@ output["crdY"] = crd_y
 with open(output_file_name, 'w') as f:
     json.dump(output, f, indent=2)
 
-print("Initialization Compllete")
+print("Initialization Complete")
