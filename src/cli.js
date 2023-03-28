@@ -34,7 +34,7 @@ async function main(inputFile, outputFile) {
 
   const coordinates = graph
     .getJSON()
-    .map((c) => `${c.x}\t${c.y}\t${c.id}`)
+    .map((c) => `${c.x}\t${c.y}\t${data.idToLabel[c.id]}`)
     .join('\n');
 
   for (const { id, x, y } of graph.getJSON()) {
