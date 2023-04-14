@@ -17,16 +17,12 @@ if (process.argv.length !== 4) {
  */
 async function main(inputFile, outputFile) {
   const data = JSON.parse(fs.readFileSync(inputFile));
-  const cy = await cytoscapeLayout(data);
-  const preContent = cy.json();
-  fs.writeFileSync('test-input.cyjs', JSON.stringify(preContent, null, 2));
   console.log('Starting DELG algorithm...', new Date());
   const graph = new D3ForceGraph(500, 500, data);
   graph.init();
   myInit(graph);
   await graph.start();
 
-  const jsonCord = {};
   for (const { id, x, y } of graph.getJSON()) {
     data.crdX[id] = x;
     data.crdY[id] = y;
@@ -37,12 +33,18 @@ async function main(inputFile, outputFile) {
     .map((c) => `${c.x}\t${c.y}\t${data.idToLabel[c.id]}`)
     .join('\n');
 
-  for (const { id, x, y } of graph.getJSON()) {
-    cy.$id(id.toString()).position({ x, y });
+  if (data.myEdges.length < 1000) {
+    const cy = await cytoscapeLayout(data);
+    for (const { id, x, y } of graph.getJSON()) {
+      cy.$id(id.toString()).position({ x, y });
+    }
+    const networkContent = cy.json();
+    fs.writeFileSync(
+      'test-output.cyjs',
+      JSON.stringify(networkContent, null, 2)
+    );
   }
 
-  const networkContent = cy.json();
-  fs.writeFileSync('test-output.cyjs', JSON.stringify(networkContent, null, 2));
   fs.writeFileSync(outputFile, coordinates);
 }
 
